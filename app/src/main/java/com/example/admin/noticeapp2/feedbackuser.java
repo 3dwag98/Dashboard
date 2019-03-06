@@ -24,7 +24,7 @@ public class feedbackuser extends AppCompatActivity {
 //        DatabaseReference myRef = database.getReference("message");
 //
 //        myRef.setValue("Hello, World!");
-     //   db = FirebaseDatabase.getInstance().getReference("Query" );
+     //   db = FirebaseDatabase.getInstance().getReference("FirebaseHelper" );
 
     }
 }
