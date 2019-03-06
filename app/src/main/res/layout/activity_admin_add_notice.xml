@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".add_notice">
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="28dp"
+        android:text="Add Your Notice"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imgBack"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="72dp"
+        android:background="@drawable/buttoncolor"
+        android:text="Post"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/newback"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="16dp"
+        android:text="Add Your Notice Photo"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <ImageButton
+        android:id="@+id/imgUpload"
+        android:layout_width="156dp"
+        android:layout_height="166dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_menu_gallery"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="398dp"
+        android:layout_height="239dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/noticevalaback"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <EditText
+            android:id="@+id/txtTitle"
+            android:layout_width="370dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="1dp"
+            android:ems="10"
+            android:hint="Add Tittle"
+            android:inputType="textPersonName"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="73dp" />
+
+
+        <EditText
+            android:id="@+id/txtDescrp"
+            android:layout_width="362dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="-370dp"
+            android:layout_marginTop="100dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Add Description"
+            android:inputType="textMultiLine"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

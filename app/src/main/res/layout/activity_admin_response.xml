@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".responceadmin">
+
+    <ImageButton
+        android:id="@+id/imgBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/newback"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Responce Panel "
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imgBack"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtQuery"
+        android:layout_width="375dp"
+        android:layout_height="184dp"
+        android:layout_marginTop="32dp"
+        android:hint="Query"
+        android:background="@drawable/rectangle_outline"
+        app:layout_constraintStart_toStartOf="@+id/imgBack"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginLeft="112dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/buttoncolor"
+        android:text="Submit"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="@+id/txtResponse"
+        app:layout_constraintTop_toBottomOf="@+id/txtResponse" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Responce :"
+        app:layout_constraintStart_toStartOf="@+id/txtQuery"
+        app:layout_constraintTop_toBottomOf="@+id/txtQuery" />
+
+    <EditText
+        android:id="@+id/txtResponse"
+        android:layout_width="376dp"
+        android:layout_height="239dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+</android.support.constraint.ConstraintLayout>

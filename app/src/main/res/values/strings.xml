@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NoticeApp</string>
+    <string name="title_activity_main_page">main_page</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Vikrant Gavnang</string>
+    <string name="nav_header_subtitle">vikrantgav17@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_dashboard">dashboard</string>
+</resources>

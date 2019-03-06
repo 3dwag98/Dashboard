@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".feedbackuser">
+
+    <ImageButton
+        android:id="@+id/imageButton14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/newback"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="24dp"
+        android:text="FeedBack Panel"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageButton14"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtQuery"
+        android:layout_width="381dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="28dp"
+        android:text="FeedBack :"
+        app:layout_constraintStart_toStartOf="@+id/imageButton14"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/buttoncolor"
+        android:text="Submit"
+        app:layout_constraintStart_toStartOf="@+id/txtQuery"
+        app:layout_constraintTop_toBottomOf="@+id/txtQuery" />
+</android.support.constraint.ConstraintLayout>

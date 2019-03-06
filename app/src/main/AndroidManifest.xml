@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.admin.noticeapp2">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/profil"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.example.admin.noticeapp2.admin_dashboard"></activity>
+        <activity android:name="com.example.admin.noticeapp2.manageaccount" />
+        <activity android:name="com.example.admin.noticeapp2.feedbackuser" />
+
+        <activity android:name="com.example.admin.noticeapp2.responceadmin" />
+        <activity android:name="com.example.admin.noticeapp2.Login_Window"
+            android:exported="true"/>
+        <activity android:name="com.example.admin.noticeapp2.account_setup_profile" />
+        <activity android:name="com.example.admin.noticeapp2.Postingnotice_panel" />
+        <activity android:name="com.example.admin.noticeapp2.AboutUs" />
+        <activity
+            android:name="com.example.admin.noticeapp2.Splash_Screen"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.admin.noticeapp2.Help_page" />
+        <activity
+            android:name="com.example.admin.noticeapp2.Registration"
+            android:exported="true" />
+        <activity android:name="com.example.admin.noticeapp2.add_notice"
+            android:exported="true"/>
+        <activity android:name="com.example.admin.noticeapp2.new_dashboard" />
+        <activity android:name="com.example.admin.noticeapp2.admin_loginwindow" />
+        <activity android:name="com.example.admin.noticeapp2.adminnotice_addpage" />
+    </application>
+
+</manifest>
