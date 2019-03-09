@@ -38,7 +38,9 @@ public class new_dashboard extends AppCompatActivity {
         imgNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Toast.makeText(getApplicationContext(),"View Notice module required",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(new_dashboard.this,CardDemoActivity.class));
             }
         });
 

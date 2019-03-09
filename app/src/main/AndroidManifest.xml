@@ -46,7 +46,10 @@
             android:exported="true" />
         <activity android:name=".new_dashboard" />
         <activity android:name=".admin_loginwindow" />
-        <activity android:name=".adminnotice_addpage" />
+        <activity android:name=".adminnotice_addpage"
+            android:exported="true"/>
+        <activity android:name=".CardDemoActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -14,7 +14,6 @@
 
     android:layout_margin="5dp"
 
-    card_view:cardBackgroundColor=""
 
     card_view:cardCornerRadius="12dp"
 

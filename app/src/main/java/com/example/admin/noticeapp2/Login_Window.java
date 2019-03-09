@@ -153,6 +153,7 @@ public class Login_Window extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
+        finish();
         finishAffinity();
     }
 }
