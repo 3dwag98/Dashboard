@@ -12,10 +12,12 @@
         android:roundIcon="@drawable/profil"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".demo_mainactivity"
+            android:exported="true"></activity>
         <activity
             android:name=".user_dashboardfinal"
             android:label="@string/title_activity_user_dashboardfinal"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".democardview" />
         <activity android:name=".admin_dashboard" />
         <activity android:name=".manageaccount" />
@@ -46,10 +48,12 @@
             android:exported="true" />
         <activity android:name=".new_dashboard" />
         <activity android:name=".admin_loginwindow" />
-        <activity android:name=".adminnotice_addpage"
-            android:exported="true"/>
-        <activity android:name=".CardDemoActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".adminnotice_addpage"
+            android:exported="true" />
+        <activity
+            android:name=".CardDemoActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
