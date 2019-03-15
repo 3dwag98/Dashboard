@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.admin.noticeapp2">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,9 +12,11 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/profil"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".demo_mainactivity"
-            android:exported="true"></activity>
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".demo_mainactivity"
+            android:exported="true" />
         <activity
             android:name=".user_dashboardfinal"
             android:label="@string/title_activity_user_dashboardfinal"
@@ -26,7 +29,8 @@
         <activity
             android:name=".Login_Window"
             android:exported="true" />
-        <activity android:name=".account_setup_profile" />
+        <activity android:name=".account_setup_profile"
+            android:exported="true"/>
         <activity android:name=".Postingnotice_panel" />
         <activity android:name=".AboutUs" />
         <activity
@@ -54,6 +58,8 @@
         <activity
             android:name=".CardDemoActivity"
             android:exported="true" />
+
     </application>
+
 
 </manifest>

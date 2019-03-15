@@ -20,11 +20,7 @@ public class feedbackuser extends AppCompatActivity {
 
         txtQuery = findViewById(R.id.txtQuery);
         btnSubmit = findViewById(R.id.btnSubmit);
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference("message");
-//
-//        myRef.setValue("Hello, World!");
-     //   db = FirebaseDatabase.getInstance().getReference("FirebaseHelper" );
+
 
     }
 }

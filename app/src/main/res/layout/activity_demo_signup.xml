@@ -24,8 +24,6 @@
 
         android:layout_height="wrap_content"
 
-        android:layout_alignParentleft="true"
-
         android:layout_alignParentTop="true"
 
         android:background="@drawable/demo_background"
