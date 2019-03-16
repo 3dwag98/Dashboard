@@ -24,12 +24,15 @@ public class new_dashboard extends AppCompatActivity {
         imgHelp = findViewById(R.id.imgHelp);
         imgForum = findViewById(R.id.imgResponse);
 
+
         imgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Menu module required",Toast.LENGTH_SHORT).show();
                 mAuth = FirebaseAuth.getInstance();
                 mAuth.signOut();
+                stopService(new Intent(getBaseContext(),NotifyService.class));
+
                 finish();
                 startActivity(new Intent(new_dashboard.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
@@ -64,6 +67,8 @@ public class new_dashboard extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext() ,Help_page.class ));
             }
         });
+
+        startService(new Intent(getBaseContext(),NotifyService.class));
 
     }
 

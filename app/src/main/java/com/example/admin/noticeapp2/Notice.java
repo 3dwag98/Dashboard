@@ -1,28 +1,28 @@
 package com.example.admin.noticeapp2;
 
 public class Notice {
-    String title,Descrp,upload;
+    String title, descrp,upload;
 
     public Notice() {
     }
 
     public Notice(String title, String Descrp){
         this.title = title;
-        this.Descrp = Descrp;
+        this.descrp = Descrp;
     }
 
     public void setTitle(String title){
         this.title = title;
     }
-    public void setDes(String descrp){
-        this.Descrp = descrp;
+    public void setDescrp(String descrp){
+        this.descrp = descrp;
     }
 
     public String getTitle(){
         return this.title;
     }
-    public String getDes(){
-        return this.Descrp;
+    public String getDescrp(){
+        return this.descrp;
     }
 
     public String getUpload(){

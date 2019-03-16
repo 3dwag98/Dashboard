@@ -3,6 +3,7 @@ package com.example.admin.noticeapp2;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.common.ChangeEventType;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.ObservableSnapshotArray;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class DbAdapter extends FirebaseRecyclerAdapter<Notice,DbAdapter.NoticeHolder> {
     /**
@@ -31,7 +40,7 @@ public class DbAdapter extends FirebaseRecyclerAdapter<Notice,DbAdapter.NoticeHo
     @Override
     protected void onBindViewHolder(@NonNull DbAdapter.NoticeHolder holder, final int position, @NonNull Notice model) {
         holder.setTxtTitle(model.getTitle());
-        holder.setTxtDesc(model.getDes());
+        holder.setTxtDesc(model.getDescrp());
 
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,10 +59,33 @@ public class DbAdapter extends FirebaseRecyclerAdapter<Notice,DbAdapter.NoticeHo
     }
 
     public void DeleteItem(int position) {
-       // getSnapshots().getSnapshot(position).getRef().removeValue();
+        getSnapshots().getSnapshot(position).getRef().removeValue();
+        Notice n = getSnapshots().getSnapshot(position).getValue(Notice.class);
+        String url = n.getUpload();
 
-        notifyItemRemoved(position);
-        //notifyDataSetChanged();
+        try {
+            StorageReference mref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+            mref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(c,"deleted ...",Toast.LENGTH_SHORT).show();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.v("dataFail:  ",""+e);
+                    Toast.makeText(c,""+e,Toast.LENGTH_SHORT).show();
+                }
+            })
+            ;
+        }
+        catch(Exception ex){
+           Log.v("dataError:  ",""+ex);
+            Toast.makeText(c,""+ex,Toast.LENGTH_SHORT).show();
+        }
+
+        notifyDataSetChanged();
     }
 
 
@@ -82,5 +114,27 @@ public class DbAdapter extends FirebaseRecyclerAdapter<Notice,DbAdapter.NoticeHo
 
 
 
+    }
+
+    @Override
+    public void startListening() {
+        super.startListening();
+
+    }
+
+    @Override
+    public void onChildChanged(@NonNull ChangeEventType type, @NonNull DataSnapshot snapshot, int newIndex, int oldIndex) {
+        super.onChildChanged(type, snapshot, newIndex, oldIndex);
+    }
+
+    @Override
+    public void onDataChanged() {
+        super.onDataChanged();
+    }
+
+    @NonNull
+    @Override
+    public ObservableSnapshotArray<Notice> getSnapshots() {
+        return super.getSnapshots();
     }
 }

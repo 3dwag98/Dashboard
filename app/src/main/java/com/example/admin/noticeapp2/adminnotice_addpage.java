@@ -62,7 +62,7 @@ public class adminnotice_addpage extends AppCompatActivity {
 
         linearLayoutManager = new LinearLayoutManager(adminnotice_addpage.this);
         recyclerView.setLayoutManager(linearLayoutManager);
-       // recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         fetch();
 
 
@@ -110,7 +110,7 @@ public class adminnotice_addpage extends AppCompatActivity {
 //            @Override
 //            protected void onBindViewHolder(@NonNull adminnotice_addpage.ViewHolder holder, final int position, @NonNull Notice model) {
 //                holder.setTxtTitle(model.getTitle());
-//                holder.setTxtDesc(model.getDes());
+//                holder.setTxtDesc(model.getDescrp());
 //
 //                holder.root.setOnClickListener(new View.OnClickListener() {
 //                    @Override

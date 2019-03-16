@@ -7,7 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +39,7 @@ public class Login_Window extends AppCompatActivity {
     private Switch switchAdmin;
     private ImageButton imgBack;
     private CheckBox checkRem;
-
+    Validate v;
     private FirebaseAuth mAuth;
 
     @Override
@@ -57,6 +59,26 @@ public class Login_Window extends AppCompatActivity {
         imgBack = findViewById(R.id.imgBack);
         switchAdmin = findViewById(R.id.switchAdmin);
         checkRem = findViewById(R.id.checkRemeber);
+
+
+        txtUname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(v.isValidEmail(txtUname)){}
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
 
         switchAdmin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -16,7 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".demo_mainactivity"
-            android:exported="true" />
+            />
         <activity
             android:name=".user_dashboardfinal"
             android:label="@string/title_activity_user_dashboardfinal"
@@ -27,8 +27,7 @@
         <activity android:name=".feedbackuser" />
         <activity android:name=".responceadmin" />
         <activity
-            android:name=".Login_Window"
-            android:exported="true" />
+            android:name=".Login_Window" />
         <activity android:name=".account_setup_profile"
             android:exported="true"/>
         <activity android:name=".Postingnotice_panel" />
@@ -45,19 +44,21 @@
         </activity>
         <activity android:name=".Help_page" />
         <activity
-            android:name=".Registration"
-            android:exported="true" />
+            android:name=".Registration" android:exported="true" />
         <activity
             android:name=".add_notice"
             android:exported="true" />
-        <activity android:name=".new_dashboard" />
+        <activity android:name=".new_dashboard"
+            android:exported="true"/>
         <activity android:name=".admin_loginwindow" />
         <activity
             android:name=".adminnotice_addpage"
-            android:exported="true" />
+            />
         <activity
             android:name=".CardDemoActivity"
             android:exported="true" />
+
+        <service android:name=".NotifyService"/>
 
     </application>
 

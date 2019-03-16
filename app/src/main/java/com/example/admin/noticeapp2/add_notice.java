@@ -82,7 +82,7 @@ public class add_notice extends AppCompatActivity {
         String title = txtTitle.getText().toString();
         String Descrp = txtDescrp.getText().toString();
 
-        Notice newNotice = new Notice(title,Descrp);
+        Notice newNotice = new Notice( title, Descrp);
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("Notices");
         db.child(title).setValue(newNotice);
         Toast.makeText(add_notice.this,"Notice Uploaded",Toast.LENGTH_SHORT).show();
@@ -92,11 +92,13 @@ public class add_notice extends AppCompatActivity {
             progress.setTitle("File Uploading");
             progress.setProgress(0);
             progress.show();
-            mStorageRef.child("NoticeUploads").child(txtTitle.getText().toString()).putFile(filePath)
+            final StorageReference mfile= mStorageRef.child("NoticeUploads").child(txtTitle.getText().toString());
+            mfile.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            String url = taskSnapshot.getStorage().getDownloadUrl().toString();
+                            String url;
+                            url = mfile.getDownloadUrl().toString();
                             DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                             db.child("Notices").child(txtTitle.getText().toString())
                                     .child("upload").setValue(url)

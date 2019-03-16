@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,6 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.SnapshotParser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
@@ -92,12 +89,16 @@ public class CardDemoActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder holder, final int position, @NonNull Notice model) {
                 holder.setTxtTitle(model.getTitle());
-                holder.setTxtDesc(model.getDes());
+                holder.setTxtDesc(model.getDescrp());
 
                 holder.root.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(CardDemoActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+
+
+
+
                     }
                 });
             }
@@ -112,8 +113,11 @@ public class CardDemoActivity extends AppCompatActivity {
 
 
 
+
+
         };
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -137,4 +141,5 @@ public class CardDemoActivity extends AppCompatActivity {
         startActivity(new Intent(CardDemoActivity.this,new_dashboard.class));
 
     }
+
 }

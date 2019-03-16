@@ -112,7 +112,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/mobnum"
         app:layout_constraintTop_toBottomOf="@+id/mobnum"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintVertical_bias="0.117"
+        android:textColor="@color/edit_text_color"/>
 
     <EditText
         android:id="@+id/mobnum"
