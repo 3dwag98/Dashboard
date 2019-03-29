@@ -38,7 +38,6 @@ public class CardDemoActivity extends AppCompatActivity {
         setContentView(R.layout.cardview_notices);
         recyclerView = findViewById(R.id.recycler_view);
 
-
         linearLayoutManager = new LinearLayoutManager(CardDemoActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);

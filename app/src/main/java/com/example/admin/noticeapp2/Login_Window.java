@@ -173,8 +173,6 @@ public class Login_Window extends AppCompatActivity {
                             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(txtUname.getWindowToken(), 0);
 
-
-
                             if (checkRem.isChecked()) {
                                 loginPrefsEditor.putBoolean("saveLogin", true);
                                 loginPrefsEditor.putString("username", email);
@@ -204,7 +202,6 @@ public class Login_Window extends AppCompatActivity {
                             }
                         }
                     });
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)

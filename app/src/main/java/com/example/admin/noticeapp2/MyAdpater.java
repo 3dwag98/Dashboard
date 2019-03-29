@@ -2,7 +2,9 @@ package com.example.admin.noticeapp2;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -79,11 +81,23 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
+                String title = item.getTitle();
+                String descrp = item.getDescrp();
+                String time = item.getTime().toString();
+                Toast.makeText(context,title,Toast.LENGTH_SHORT).show();
 
                 String url = item.getUpload();
 
                 if(!url.equals("")) {
+
+
+                    Intent i = new Intent(context.getApplicationContext(),NoticeView.class);
+                    i.putExtra("title",title);
+                    i.putExtra("descrp",descrp);
+                    i.putExtra("time",time);
+                    i.putExtra("url",url);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "wallpaper");
 
                     if (!mediaStorageDir.exists()) {
@@ -94,6 +108,9 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
                     String dir = mediaStorageDir.getAbsolutePath();
 
                     download(context, item.getTitle(), "*", dir, url);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        context.startActivity(i);
+                    }
                 }
 
             }
