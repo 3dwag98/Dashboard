@@ -118,19 +118,19 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
                         e.printStackTrace();
                     }
 
-//                    File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "wallpaper");
-//
-//                    if (!mediaStorageDir.exists()) {
-//                        if (!mediaStorageDir.mkdirs()) {
-//                            Log.d("App", "failed to create directory");
-//                        }
-//                    }
-//                    String dir = mediaStorageDir.getAbsolutePath();
-//
-//                    download(context, item.getTitle(), "*", dir, url);
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                        context.startActivity(i);
-//                    }
+                    File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "wallpaper");
+
+                    if (!mediaStorageDir.exists()) {
+                        if (!mediaStorageDir.mkdirs()) {
+                            Log.d("App", "failed to create directory");
+                        }
+                    }
+                    String dir = mediaStorageDir.getAbsolutePath();
+
+                    download(context, item.getTitle(), "*", dir, url);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        context.startActivity(i);
+                    }
                 }
 
             }

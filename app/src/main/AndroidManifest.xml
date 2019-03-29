@@ -60,7 +60,7 @@
         <activity
             android:name=".CardDemoActivity"
             android:exported="true" />
-
+        <activity android:name=".NetworkConnection"></activity>
         <service
             android:name=".NotifyService"
             android:exported="true" />

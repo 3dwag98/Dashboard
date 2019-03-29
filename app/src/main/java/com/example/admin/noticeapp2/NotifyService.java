@@ -48,6 +48,7 @@ public class NotifyService extends Service {
        // Toast.makeText(NotifyService.this,"Service Started",Toast.LENGTH_LONG).show();
 
         mRef.addChildEventListener(new ChildEventListener() {
+
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                // Toast.makeText(getApplicationContext(),"childedAdded",Toast.LENGTH_SHORT).show();
@@ -60,7 +61,6 @@ public class NotifyService extends Service {
                         .setContentTitle(n.getTitle())
                         .setContentText(n.getDescrp())
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
 
 
                 NotificationManager notificationManager = (NotificationManager)
@@ -79,7 +79,6 @@ public class NotifyService extends Service {
                     builder.setChannelId(NOTIFICATION_CHANNEL_ID);
                     notificationManager.createNotificationChannel(notificationChannel);
                 }
-
 
                 notificationManager.notify(0,builder.build());
 
@@ -110,8 +109,6 @@ public class NotifyService extends Service {
 
 
         return START_STICKY;
-
-
     }
 
     @Override
