@@ -109,7 +109,6 @@ public class adminnotice_addpage extends AppCompatActivity {
                 //adding adapter to recyclerview
                 recyclerView.setAdapter(ad);
                 Log.v("LENGTH",uploads.size()+"");
-
             }
 
             @Override

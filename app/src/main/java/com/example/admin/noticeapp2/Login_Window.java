@@ -1,6 +1,8 @@
 package com.example.admin.noticeapp2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -41,6 +45,9 @@ public class Login_Window extends AppCompatActivity {
     private CheckBox checkRem;
     Validate v;
     private FirebaseAuth mAuth;
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
+    private Boolean saveLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,16 @@ public class Login_Window extends AppCompatActivity {
         imgBack = findViewById(R.id.imgBack);
         switchAdmin = findViewById(R.id.switchAdmin);
         checkRem = findViewById(R.id.checkRemeber);
+
+
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+            txtUname.setText(loginPreferences.getString("username", ""));
+            txtPass.setText(loginPreferences.getString("password", ""));
+            checkRem.setChecked(true);
+        }
 
 
         txtUname.addTextChangedListener(new TextWatcher() {
@@ -107,9 +124,7 @@ public class Login_Window extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                     CheckLogin();
-
             }
         });
 
@@ -139,7 +154,7 @@ public class Login_Window extends AppCompatActivity {
 
 
         //firebase login check
-        Toast.makeText(Login_Window.this,"Login triggered",Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(Login_Window.this,"Login triggered",Toast.LENGTH_SHORT).show();
         mAuth = FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser() != null){
@@ -149,9 +164,29 @@ public class Login_Window extends AppCompatActivity {
 
         //checkRem.setText(email[0]);
         //txtUname.setText();
-        String email = txtUname.getText().toString();
-        String pass = txtPass.getText().toString();
+        final String email = txtUname.getText().toString();
+        final String pass = txtPass.getText().toString();
             mAuth.signInWithEmailAndPassword(email, pass)
+                    .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(txtUname.getWindowToken(), 0);
+
+
+
+                            if (checkRem.isChecked()) {
+                                loginPrefsEditor.putBoolean("saveLogin", true);
+                                loginPrefsEditor.putString("username", email);
+                                loginPrefsEditor.putString("password", pass);
+                                loginPrefsEditor.commit();
+                            } else {
+                                loginPrefsEditor.clear();
+                                loginPrefsEditor.commit();
+                            }
+                            Toast.makeText(Login_Window.this,"WELCOME",Toast.LENGTH_LONG);
+                        }
+                    })
                     .addOnFailureListener(this, new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {

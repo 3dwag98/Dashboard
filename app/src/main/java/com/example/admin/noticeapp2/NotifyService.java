@@ -37,7 +37,7 @@ public class NotifyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(getApplicationContext(),"inService",Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getApplicationContext(),"inService",Toast.LENGTH_SHORT).show();
 
     }
 
@@ -46,7 +46,7 @@ public class NotifyService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         mRef = FirebaseDatabase.getInstance().getReference("Notices");
-        Toast.makeText(NotifyService.this,"Service Started",Toast.LENGTH_LONG).show();
+       // Toast.makeText(NotifyService.this,"Service Started",Toast.LENGTH_LONG).show();
 
 
         mRef.addChildEventListener(new ChildEventListener() {
@@ -54,7 +54,7 @@ public class NotifyService extends Service {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Toast.makeText(getApplicationContext(),"childedAdded",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(),"childedAdded",Toast.LENGTH_SHORT).show();
                 Notice n = dataSnapshot.getValue(Notice.class);
 
                 Log.v("DATA:   ",n.getDescrp()+"   "+n.getTitle());
