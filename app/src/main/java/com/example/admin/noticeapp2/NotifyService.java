@@ -41,11 +41,10 @@ public class NotifyService extends Service {
 
     }
 
+
     @Override
-    public void onStart(Intent intent, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
-
-        super.onStart(intent, startId);
         mRef = FirebaseDatabase.getInstance().getReference("Notices");
         Toast.makeText(NotifyService.this,"Service Started",Toast.LENGTH_LONG).show();
 
@@ -112,11 +111,11 @@ public class NotifyService extends Service {
             }
         });
 
-    }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+
+        return START_STICKY;
+
+
     }
 
     @Override

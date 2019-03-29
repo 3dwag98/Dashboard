@@ -5,21 +5,37 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class adminnotice_addpage extends AppCompatActivity {
 
@@ -28,7 +44,11 @@ public class adminnotice_addpage extends AppCompatActivity {
     private TextView txtError;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private DbAdapter adapter;
+    private MyAdpater ad;
+    private DatabaseReference mDatabase;
+    private List<Notice> uploads;
+
+
     ProgressDialog pg;
 
     @Override
@@ -63,79 +83,41 @@ public class adminnotice_addpage extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(adminnotice_addpage.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        fetch();
 
 
-    }
-
-//
-//    public class ViewHolder extends RecyclerView.ViewHolder {
-//        public RelativeLayout root;
-//        public TextView txtTitle;
-//        public TextView txtDesc;
-//
-//        public ViewHolder(View itemView) {
-//            super(itemView);
-//            root = itemView.findViewById(R.id.list_root);
-//            txtTitle = itemView.findViewById(R.id.item_noticetitle);
-//            txtDesc = itemView.findViewById(R.id.item_detail);
-//        }
-//
-//        public void setTxtTitle(String string) {
-//            txtTitle.setText(string);
-//        }
-//
-//
-//        public void setTxtDesc(String string) {
-//            txtDesc.setText(string);
-//        }
-//    }
-
-    private void fetch() {
-        pg.show();
-        txtError.setVisibility(EditText.INVISIBLE);
-        final Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("Notices");
-
-        FirebaseRecyclerOptions<Notice> options =
-                new FirebaseRecyclerOptions.Builder<Notice>()
-                        .setQuery(query, Notice.class)
-                        .build();
+        uploads = new ArrayList<>();
 
 
-        adapter = new DbAdapter(options,this);
 
-//        adapter = new FirebaseRecyclerAdapter<Notice, adminnotice_addpage.ViewHolder>(options) {
-//            @Override
-//            protected void onBindViewHolder(@NonNull adminnotice_addpage.ViewHolder holder, final int position, @NonNull Notice model) {
-//                holder.setTxtTitle(model.getTitle());
-//                holder.setTxtDesc(model.getDescrp());
-//
-//                holder.root.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Toast.makeText(adminnotice_addpage.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public adminnotice_addpage.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext())
-//                        .inflate(R.layout.card_layout, parent, false);
-//
-//                return new adminnotice_addpage.ViewHolder(view);
-//            }
-//            public void deleteItem(int position){
-//                getSnapshots().getSnapshot(position).getRef().removeValue();
-//            }
-//
-//
-//        };
+        mDatabase = FirebaseDatabase.getInstance().getReference("Notices");
+
+        //adding an event listener to fetch values
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //dismissing the progress dialog
 
 
-        recyclerView.setAdapter(adapter);
+                //iterating through all the values in database
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Notice upload = postSnapshot.getValue(Notice.class);
+                    uploads.add(upload);
+                }
+                //creating adapter
+                ad = new MyAdpater(getApplicationContext(), uploads);
+
+                //adding adapter to recyclerview
+                recyclerView.setAdapter(ad);
+                Log.v("LENGTH",uploads.size()+"");
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        txtError.setText(null);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -145,34 +127,133 @@ public class adminnotice_addpage extends AppCompatActivity {
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                Log.v("hello",viewHolder.getAdapterPosition()+":position");
-
-                Log.v("hello",adapter.getItemCount()+":total");
-               // adapter.DeleteItem(viewHolder.getAdapterPosition());
-//                adapter.getSnapshots().getSnapshot(viewHolder.getAdapterPosition()).getRef().removeValue();
-//                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-//                adapter.notifyDataSetChanged();
-                adapter.DeleteItem(viewHolder.getAdapterPosition());
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
+                final int pos = viewHolder.getAdapterPosition();
+//                try{
+//
+//                    String url = uploads.get(pos).getUpload();
+//                    final String name=uploads.get(viewHolder.getAdapterPosition()).getTitle();
+//                    int p=0;
+//                    for(Notice model : uploads) {
+//                        Log.e("DATAL","pos:" + (p++)+",name:"+model.getTitle());
+//                    }
+//
+//
+////                if(!(url.equals(""))) {
+////                    try {
+////                        StorageReference mref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+////                        mref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+////                            @Override
+////                            public void onSuccess(Void aVoid) {
+////                                Toast.makeText(adminnotice_addpage.this, "deleted ...", Toast.LENGTH_SHORT).show();
+////
+////                            }
+////                        }).addOnFailureListener(new OnFailureListener() {
+////                            @Override
+////                            public void onFailure(@NonNull Exception e) {
+////                                Log.v("dataFail:  ", "" + e);
+////                                Toast.makeText(adminnotice_addpage.this, "" + e, Toast.LENGTH_SHORT).show();
+////                            }
+////                        });
+////                    } catch (Exception ex) {
+////                        Log.v("dataError:  ", "" + ex);
+////                        Toast.makeText(adminnotice_addpage.this, "" + ex, Toast.LENGTH_SHORT).show();
+////                    }
+////                }
+//                    DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Notices").child(name);
+//
+//                    rRef.getRef().removeValue(new DatabaseReference.CompletionListener() {
+//                        @Override
+//                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+//
+//                            Log.e("DATAL","pos:" + pos+",name:"+name+"data:");
+//
+//                        }
+//                    });
+//
+//                    p=0;
+//                    for(Notice model : uploads) {
+//                        Log.e("DATAL","afterpos:" + (p++)+",name:"+model.getTitle());
+//                    }
+////                    uploads.remove(viewHolder.getAdapterPosition());
+////                    ad.notifyItemRemoved(viewHolder.getAdapterPosition());
+//                }catch (Exception e){
+//                    Toast.makeText(adminnotice_addpage.this,e+"",Toast.LENGTH_LONG);
+//                }
+                uploads.remove(pos);
+                ad.notifyItemRemoved(pos);
+               // ad.notifyDataSetChanged();
             }
+
         }).attachToRecyclerView(recyclerView);
 
-        pg.dismiss();
+//        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+//                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
+//                final int pos = viewHolder.getAdapterPosition();
+//                String url = uploads.get(viewHolder.getAdapterPosition()).getUpload();
+//
+//                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        if(dataSnapshot.hasChild(uploads.get(viewHolder.getAdapterPosition()).getTitle())){
+//                        dataSnapshot.child(uploads.get(viewHolder.getAdapterPosition()).getTitle()).getRef().removeValue();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                    }
+//                });
+//                if(!url.equals("")) {
+//                    try {
+//                        StorageReference mref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+//                        mref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                Toast.makeText(adminnotice_addpage.this, "deleted ...", Toast.LENGTH_SHORT).show();
+//
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.v("dataFail:  ", "" + e);
+//                                Toast.makeText(adminnotice_addpage.this, "" + e, Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    } catch (Exception ex) {
+//                        Log.v("dataError:  ", "" + ex);
+//                        Toast.makeText(adminnotice_addpage.this, "" + ex, Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                uploads.remove(pos);
+//                ad.notifyItemRemoved(pos);
+//            }
+//        }).attachToRecyclerView(recyclerView);
+
+
+
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        adapter.startListening();
+
 
     }
+
 
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopListening();
-
     }
 
     @Override

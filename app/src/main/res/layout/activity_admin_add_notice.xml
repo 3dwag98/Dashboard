@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".add_notice">
+    tools:context=".add_notice"
+    android:id="@+id/view_upload">
 
     <TextView
         android:id="@+id/textView8"
@@ -114,5 +115,21 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/filename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="File Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imgUpload"
+        app:layout_constraintStart_toStartOf="@+id/imgUpload"
+        app:layout_constraintTop_toBottomOf="@+id/imgUpload"
+        app:layout_constraintVertical_bias="0.203"
+        android:textAlignment="center"/>
 
 </android.support.constraint.ConstraintLayout>

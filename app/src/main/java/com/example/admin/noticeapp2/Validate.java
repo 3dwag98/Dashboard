@@ -4,15 +4,10 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.widget.EditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.validation.Validator;
-
-import static com.example.admin.noticeapp2.R.drawable.ic_error;
 
 public class Validate  {
     public Validate() {

@@ -65,7 +65,7 @@
 
             android:layout_toRightOf="@+id/item_image"
 
-            android:text="T.Y.Bsc IT Result"
+            android:text="T.Y.Bsc IT "
 
             android:textSize="30sp"
 
@@ -86,6 +86,16 @@
             android:text="The Result Will Be Display ON The Notice Board "
 
             />
+
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:text="TextView" />
 
 
     </RelativeLayout>

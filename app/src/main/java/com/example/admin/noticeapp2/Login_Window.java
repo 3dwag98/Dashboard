@@ -69,7 +69,7 @@ public class Login_Window extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(v.isValidEmail(txtUname)){}
+               // if(v.isValidEmail(txtUname)){}
             }
 
             @Override
