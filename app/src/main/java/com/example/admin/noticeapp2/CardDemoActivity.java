@@ -15,9 +15,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -41,27 +43,23 @@ public class CardDemoActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(CardDemoActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-
         uploads = new ArrayList<>();
 
 
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Notices");
+        Query q = FirebaseDatabase.getInstance().getReference("Notices").orderByChild("time/time");
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        q.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Notice upload = postSnapshot.getValue(Notice.class);
                     uploads.add(upload);
                 }
-
+                Collections.reverse(uploads);
                 ad = new MyAdpater(getApplicationContext(), uploads);
-
                 recyclerView.setAdapter(ad);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 

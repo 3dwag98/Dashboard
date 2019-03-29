@@ -1,5 +1,6 @@
 package com.example.admin.noticeapp2;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -21,15 +22,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -59,8 +57,8 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
         final Notice item = uploads.get(position);
         holder.txtTitle.setText(item.getTitle());
         holder.txtDesc.setText(item.getDescrp());
-        Date time = item.getTime();
-        String time1 = new SimpleDateFormat("dd MMMM").format(time);
+        final Date time = item.getTime();
+        final String time1 = new SimpleDateFormat("dd MMMM").format(time);
         holder.txtTime.setText(time1);
 
         List<String> imageFormat = Arrays.asList(new String[]{"jpg", "JPG", "png", "PNG", "jpeg", "JPEG"});
@@ -83,34 +81,56 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
             public void onClick(View view) {
                 String title = item.getTitle();
                 String descrp = item.getDescrp();
-                String time = item.getTime().toString();
+                String time = time1;
+                String type = item.getType();
                 Toast.makeText(context,title,Toast.LENGTH_SHORT).show();
 
                 String url = item.getUpload();
 
                 if(!url.equals("")) {
-
-
                     Intent i = new Intent(context.getApplicationContext(),NoticeView.class);
                     i.putExtra("title",title);
                     i.putExtra("descrp",descrp);
                     i.putExtra("time",time);
                     i.putExtra("url",url);
+                    i.putExtra("type",type);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "wallpaper");
+                    StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("NoticeUploads").child(title);
+                    try {
+                        final File localFile = File.createTempFile(title, type);
+                        mStorageRef.getFile(localFile)
+                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.fromFile(localFile)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(browserIntent);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(context,"Failed to load",Toast.LENGTH_LONG);
+                                    }
+                                });
 
-                    if (!mediaStorageDir.exists()) {
-                        if (!mediaStorageDir.mkdirs()) {
-                            Log.d("App", "failed to create directory");
-                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    String dir = mediaStorageDir.getAbsolutePath();
 
-                    download(context, item.getTitle(), "*", dir, url);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        context.startActivity(i);
-                    }
+//                    File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "wallpaper");
+//
+//                    if (!mediaStorageDir.exists()) {
+//                        if (!mediaStorageDir.mkdirs()) {
+//                            Log.d("App", "failed to create directory");
+//                        }
+//                    }
+//                    String dir = mediaStorageDir.getAbsolutePath();
+//
+//                    download(context, item.getTitle(), "*", dir, url);
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//                        context.startActivity(i);
+//                    }
                 }
 
             }

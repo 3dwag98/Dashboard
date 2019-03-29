@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class NotifyService extends Service {
 
@@ -29,11 +30,9 @@ public class NotifyService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
     public NotifyService() {
         super();
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -48,10 +47,7 @@ public class NotifyService extends Service {
         mRef = FirebaseDatabase.getInstance().getReference("Notices");
        // Toast.makeText(NotifyService.this,"Service Started",Toast.LENGTH_LONG).show();
 
-
         mRef.addChildEventListener(new ChildEventListener() {
-
-
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                // Toast.makeText(getApplicationContext(),"childedAdded",Toast.LENGTH_SHORT).show();

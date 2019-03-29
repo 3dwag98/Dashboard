@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class NoticeView extends AppCompatActivity {
     TextView tvTitle, tvDate,tvDesc;
     ImageView  imgdesc;
@@ -16,10 +22,23 @@ public class NoticeView extends AppCompatActivity {
         tvTitle = findViewById(R.id.tvTitle);
         tvDate = findViewById(R.id.tvDate);
         tvDesc = findViewById(R.id.tvDesc);
+        imgdesc = findViewById(R.id.imgdesc);
+
+        List<String> imageFormat = Arrays.asList(new String[]{"jpg", "JPG", "png", "PNG", "jpeg", "JPEG"});
+
 
         Intent i = getIntent();
         tvTitle.setText(i.getStringExtra("title"));
         tvDate.setText(i.getStringExtra("time"));
         tvDesc.setText(i.getStringExtra("descrp"));
+        String type = i.getStringExtra("type");
+        String url = i.getStringExtra("url");
+
+        if(imageFormat.contains(type)&& (!type.equals(""))){
+            Glide.with(this)
+                    .load(url)
+                    .into(imgdesc);
+        }
+
     }
 }

@@ -225,9 +225,6 @@ public class add_notice extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
-
             }else{
                 imgUpload.setBackgroundResource(R.drawable.ic_cloud_done);
             }
@@ -238,12 +235,10 @@ public class add_notice extends AppCompatActivity {
         Intent i = new Intent();
         i.setType("*/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
-
         startActivityForResult(Intent.createChooser(i,"Select Image"),IMAGE_REQUEST_CODE);
     }
 
     private void Upload() {
-
         chooseFile();
     }
 

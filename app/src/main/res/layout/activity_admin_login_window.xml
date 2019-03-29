@@ -42,7 +42,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/rectangle_outline"
         android:ems="10"
-        android:hint="vikrant16"
+        android:hint="admin"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
