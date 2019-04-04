@@ -1,6 +1,5 @@
 package com.example.admin.noticeapp2;
 
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,18 +30,21 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
+public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implements Filterable {
     private Context context;
-    private List<Notice> uploads;
-    
+    private List uploads;
+    private List<Notice> uploadsfull;
+
 
     public MyAdpater(Context context, List<Notice> uploads) {
         this.uploads = uploads;
         this.context = context;
+        this.uploadsfull = uploads;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        final Notice item = uploads.get(position);
+        final Notice item = (Notice) uploads.get(position);
         holder.txtTitle.setText(item.getTitle());
         holder.txtDesc.setText(item.getDescrp());
         final Date time = item.getTime();
@@ -152,6 +156,40 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
     public int getItemCount() {
         return this.uploads.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private Filter exampleFilter = new Filter() {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Notice> filteredlist = new ArrayList<>();
+            if (charSequence == null || charSequence.length() == 0) {
+                filteredlist.addAll(uploadsfull);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for (Notice item : uploadsfull) {
+                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredlist.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredlist;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            uploads.clear();
+            uploads.addAll((List) filterResults.values);
+            notifyDataSetChanged();
+
+        }
+    };
+
 
 
 

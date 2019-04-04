@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +29,6 @@ import java.util.List;
 
 public class CardDemoActivity extends AppCompatActivity {
 
-
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
@@ -33,6 +36,34 @@ public class CardDemoActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private List<Notice> uploads;
     private MyAdpater ad;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mainmenu,menu);
+        MenuItem searchitem = menu.findItem(R.id.action_search);
+        SearchView searchView= (SearchView) searchitem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ad.getFilter().filter(s);
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                ad = new MyAdpater(getApplicationContext(), uploads);
+                recyclerView.setAdapter(ad);
+                return false;
+            }
+        });
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +75,6 @@ public class CardDemoActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         uploads = new ArrayList<>();
-
-
 
         Query q = FirebaseDatabase.getInstance().getReference("Notices").orderByChild("time/time");
 
@@ -62,7 +91,6 @@ public class CardDemoActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }

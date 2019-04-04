@@ -13,6 +13,18 @@ public class Validate  {
     public Validate() {
     }
 
+    public boolean isValidString(EditText text){
+        String charPattern = "^[a-zA-Z]*$";
+
+        String charP = text.getText().toString().trim();
+        if(charP.matches(charPattern) && charP.length()>0){
+            return true;
+        }
+        text.setError("Character's only !!");
+        text.requestFocus();
+        return false;
+    }
+
     public boolean isValidEmail(EditText text){
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 

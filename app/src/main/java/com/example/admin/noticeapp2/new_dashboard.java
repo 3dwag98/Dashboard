@@ -67,13 +67,12 @@ public class new_dashboard extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext() ,Help_page.class ));
             }
         });
-
         startService(new Intent(getBaseContext(),NotifyService.class));
-
     }
 
     @Override
     public void onBackPressed() {
+        
         super.onBackPressed();
         finish();
     }

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:fontFamily="@font/assistant_bold"
-        android:text="Whoops!!\nNo Connection"
+        android:text="Whoops!!\n No Connection"
         android:textSize="20dp"
         />
     <Button
