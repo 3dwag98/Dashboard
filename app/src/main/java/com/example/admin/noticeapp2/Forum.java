@@ -40,7 +40,6 @@ public class Forum extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forum);
 
-
         toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -53,10 +52,10 @@ public class Forum extends AppCompatActivity {
         rc.setLayoutManager(linearLayoutManager);
         rc.setHasFixedSize(true);
         list = new ArrayList<Model>();
-        list.add(new Model("chintu1","all", Calendar.getInstance().getTime()));
-        list.add(new Model("chintu2","all", Calendar.getInstance().getTime()));
-        list.add(new Model("chintu3","all", Calendar.getInstance().getTime()));
-        list.add(new Model("chintu4","all", Calendar.getInstance().getTime()));
+        list.add(new Model("chintu1","all", Calendar.getInstance().getTime(),"Descrpytion"));
+        list.add(new Model("chintu2","all", Calendar.getInstance().getTime(),"9987383647"));
+        list.add(new Model("chintu3","all", Calendar.getInstance().getTime(),"gawdechint98@gmail.com"));
+        list.add(new Model("chintu4","all", Calendar.getInstance().getTime(),"www.google.com"));
         ad  = new ForumAdapter(getApplicationContext(),list);
         rc.setAdapter(ad);
     }

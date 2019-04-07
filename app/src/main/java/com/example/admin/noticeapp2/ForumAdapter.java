@@ -42,6 +42,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
         final Date time = item.getDate();
         final String time1 = new SimpleDateFormat("dd MMMM").format(time);
         viewHolder.date.setText(time1);
+        viewHolder.descp.setText(item.getDescrp());
         if(false){
             //change Image
         }
@@ -60,7 +61,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView root ;
-        public TextView from,tag,date;
+        public TextView from,tag,date,descp;
         public ImageView img;
 
         public ViewHolder(@NonNull View itemView) {
@@ -70,6 +71,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             tag = itemView.findViewById(R.id.tag);
             img = itemView.findViewById(R.id.img);
             date  = itemView.findViewById(R.id.date);
+            descp = itemView.findViewById(R.id.content);
         }
     }
 }
