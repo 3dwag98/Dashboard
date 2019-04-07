@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".NoticeView"></activity>
+        <activity android:name=".Forum" android:exported="true"></activity>
+        <activity android:name=".NoticeView" />
         <activity android:name=".demo_mainactivity" />
         <activity
             android:name=".user_dashboardfinal"
@@ -60,7 +61,8 @@
         <activity
             android:name=".CardDemoActivity"
             android:exported="true" />
-        <activity android:name=".NetworkConnection"></activity>
+        <activity android:name=".NetworkConnection" />
+
         <service
             android:name=".NotifyService"
             android:exported="true" />
