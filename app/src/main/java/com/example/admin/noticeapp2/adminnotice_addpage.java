@@ -77,7 +77,7 @@ public class adminnotice_addpage extends AppCompatActivity {
 
         pg = new ProgressDialog(this);
         pg.setMessage("Fetching.....");
-        pg.setTitle("Progess Dialog");
+        pg.setTitle("Progess com.example.admin.noticeapp2.Dialog");
         pg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         linearLayoutManager = new LinearLayoutManager(adminnotice_addpage.this);

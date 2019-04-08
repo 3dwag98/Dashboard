@@ -45,20 +45,14 @@
                android:textColor="@color/white"
                />
 
-            <ImageView
-                android:id="@+id/imgattach"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="15dp"
-                android:clickable="true"
-                android:onClick="Attach"
-                android:src="@drawable/ic_attach_file_black_24dp" />
+
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:minWidth="70dp"
                 android:clickable="true"
+                android:layout_marginLeft="20dp"
                 android:id="@+id/imgsend"
                 android:onClick="Send"
                 android:src="@drawable/ic_send_black_24dp"

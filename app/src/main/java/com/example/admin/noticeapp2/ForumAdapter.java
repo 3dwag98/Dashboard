@@ -1,7 +1,10 @@
 package com.example.admin.noticeapp2;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,17 +15,25 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> implements Filterable {
     Context context;
     List<Model> list;
+    List<Model> listfull;
 
     public ForumAdapter(Context context, List list) {
         this.context = context;
         this.list = list;
+        this.listfull = list;
     }
 
     @NonNull
@@ -35,16 +46,52 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ForumAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ForumAdapter.ViewHolder viewHolder, int i) {
         Model item =  list.get(i);
         viewHolder.from.setText(item.getFrom());
+
+        viewHolder.from.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QueryDialog obj = new QueryDialog();
+                Bundle arg =  new Bundle();
+                arg.putString("TO",viewHolder.from.getText().toString());
+                obj.setArguments(arg);
+                FragmentManager fm = ((Forum)context).getSupportFragmentManager();
+                obj.show(fm,"Query");
+            }
+        });
+
         viewHolder.tag.setText(item.getTag());
         final Date time = item.getDate();
         final String time1 = new SimpleDateFormat("dd MMMM").format(time);
         viewHolder.date.setText(time1);
         viewHolder.descp.setText(item.getDescrp());
-        if(false){
-            //change Image
+
+        if(item.getUpload() != null) {
+
+            List<String> imageFormat = Arrays.asList(new String[]{"jpg", "JPG", "png", "PNG", "jpeg", "JPEG"});
+            String type = item.getType();
+            if (imageFormat.contains(type) && (!type.equals(""))) {
+                final float scale = context.getResources().getDisplayMetrics().density;
+                viewHolder.img.getLayoutParams().height = (int) (200*scale);
+                viewHolder.img.getLayoutParams().width = (int) (350*scale);
+                viewHolder.img.setScaleType(ImageView.ScaleType.FIT_XY);
+                Glide.with(context)
+                        .load(item.getUpload())
+                        .into(viewHolder.img);
+            } else if ((!type.isEmpty()) || type.contains("")) {
+                final float scale = context.getResources().getDisplayMetrics().density;
+                viewHolder.img.getLayoutParams().height = (int) (200*scale);
+                viewHolder.img.getLayoutParams().width = (int) (350*scale);
+                viewHolder.img.setScaleType(ImageView.ScaleType.FIT_XY);
+                Glide.with(context)
+                        .load(R.drawable.ic_library_books_black_24dp)
+                        .into(viewHolder.img);
+            } else {
+
+            }
+
         }
     }
 
@@ -55,8 +102,37 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
 
     @Override
     public Filter getFilter() {
-        return null;
+        return exampleFilter;
     }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Model> filteredlist = new ArrayList<>();
+            if (charSequence == null || charSequence.length() == 0 || charSequence.equals("")) {
+                filteredlist.addAll(listfull);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for (Model item : listfull) {
+                    if (item.getDescrp().toLowerCase().contains(filterPattern)) {
+                        filteredlist.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredlist;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            list.clear();
+            list.addAll((Collection<? extends Model>) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

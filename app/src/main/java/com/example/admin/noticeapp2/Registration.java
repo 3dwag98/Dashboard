@@ -216,7 +216,6 @@ public class Registration extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void reset() {

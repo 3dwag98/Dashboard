@@ -4,7 +4,39 @@ import java.util.Date;
 
 public class Model {
     String from;
-    String tag;
+    String tag,msg,upload,type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public String getUpload() {
+        return upload;
+    }
+
+    public void setUpload(String upload) {
+        this.upload = upload;
+    }
+
+    public Model(String from, String tag, String msg, String descrp, Date date) {
+        this.from = from;
+        this.tag = tag;
+        this.msg = msg;
+        this.descrp = descrp;
+        this.date = date;
+    }
 
     public Model(String from, String tag, Date date, String descrp) {
         this.from = from;

@@ -21,7 +21,6 @@ public class AboutUs extends AppCompatActivity {
                         startActivity(new Intent(AboutUs.this,new_dashboard.class));
                     }
                 });
-
     }
 
 }
