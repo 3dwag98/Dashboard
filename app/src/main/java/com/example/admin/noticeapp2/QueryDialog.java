@@ -28,13 +28,13 @@ public class QueryDialog extends DialogFragment {
     public interface DialogListener{
         void onDismiss();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.dialog_query,container,false);
         return root;
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -42,14 +42,14 @@ public class QueryDialog extends DialogFragment {
         txtTo = view.findViewById(R.id.to);
         query = view.findViewById(R.id.txtQuery);
         btnSubmit = view.findViewById(R.id.btnSubmit);
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
         txtTo.setText("TO: "+args.getString("TO"));
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
 
-                String to = txtTo.getText().toString();
+                String to = args.getString("TO");
                 String  querystr = query.getText().toString();
                 Query query1 =  new Query(to,querystr, Calendar.getInstance().getTime());
                 DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Query");

@@ -211,9 +211,6 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implem
             txtTime = itemView.findViewById(R.id.item_time);
 
         }
-
-
-
     }
 
 }

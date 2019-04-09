@@ -1,5 +1,6 @@
 package com.example.admin.noticeapp2;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,6 +49,7 @@ public class Login_Window extends AppCompatActivity {
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
+    ProgressDialog pg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,10 +126,86 @@ public class Login_Window extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    CheckLogin();
+                pg= new ProgressDialog(Login_Window.this);
+                pg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                pg.setTitle("Log-IN Process");
+                pg.setMessage("In Progress");
+                pg.show();
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference("Member");
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        boolean haschild = false;
+                        for(DataSnapshot child : dataSnapshot.getChildren()){
+                            if(child.getValue().equals(txtUname.getText().toString())){
+                                haschild = true;
+                            }
+                        }
+                        if(haschild){
+                            MemberLogin();
+                        }else{
+                            CheckLogin();
+                            Toast.makeText(Login_Window.this,"User Login",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
             }
         });
 
+    }
+
+    private void MemberLogin() {
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null){
+            pg.dismiss();
+            finish();
+            startActivity(new Intent(Login_Window.this,Forum.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
+        final String email = txtUname.getText().toString();
+        final String pass = txtPass.getText().toString();
+        mAuth.signInWithEmailAndPassword(email, pass)
+                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(txtUname.getWindowToken(), 0);
+
+                        if (checkRem.isChecked()) {
+                            loginPrefsEditor.putBoolean("saveLogin", true);
+                            loginPrefsEditor.putString("username", email);
+                            loginPrefsEditor.putString("password", pass);
+                            loginPrefsEditor.commit();
+                        } else {
+                            loginPrefsEditor.clear();
+                            loginPrefsEditor.commit();
+                        }
+                        Toast.makeText(Login_Window.this,"WELCOME",Toast.LENGTH_LONG);
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v("Dash",e.getMessage());
+                    }
+                })
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            pg.dismiss();
+                            Toast.makeText(Login_Window.this, "sign-in success..", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(Login_Window.this, Forum.class));
+                        } else {
+                            Toast.makeText(Login_Window.this, "sign-in failed..", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private boolean isLoggedIn() {
@@ -158,9 +236,11 @@ public class Login_Window extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser() != null){
+            pg.dismiss();
             finish();
             startActivity(new Intent(Login_Window.this,new_dashboard.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
+
 
         //checkRem.setText(email[0]);
         //txtUname.setText();
@@ -195,6 +275,7 @@ public class Login_Window extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                pg.dismiss();
                                 Toast.makeText(Login_Window.this, "sign-in success..", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Login_Window.this, new_dashboard.class));
                             } else {

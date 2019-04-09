@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Forum" android:exported="true"></activity>
+        <activity
+            android:name=".Forum"
+            android:exported="true" />
         <activity android:name=".NoticeView" />
         <activity android:name=".demo_mainactivity" />
         <activity
@@ -32,7 +34,7 @@
         <activity
             android:name=".account_setup_profile"
             android:exported="true" />
-        <activity android:name=".Postingnotice_panel" />
+        <activity android:name=".AddMember" android:exported="true" />
         <activity android:name=".AboutUs" />
         <activity
             android:name=".Splash_Screen"

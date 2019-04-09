@@ -1,12 +1,10 @@
 package com.example.admin.noticeapp2;
 
-import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -25,6 +23,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +44,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
     List<Model> list,listcopy,listall;
     Toolbar toolbar;
     String content ,tag;
-    String msg;
+    String msg,from;
     String[] liststr = {"ALL","FY","SY","TY"};
 
     @Override
@@ -109,8 +108,6 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
                 return true;
             }
         });
-
-
         return true;
     }
 
@@ -118,6 +115,21 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_query:
+                finish();
+                startActivity(new Intent(Forum.this, feedbackuser.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+            case R.id.action_logout:
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                finish();
+                startActivity(new Intent(Forum.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -154,7 +166,6 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
                 ad = new ForumAdapter(Forum.this, list);
                 ad.notifyDataSetChanged();
                 rc.setAdapter(ad);
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -172,34 +183,13 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
         arg.putString("child",msg);
         obj.setArguments(arg);
         obj.show(fm,"SELECT");
-        final String[] from = new String[1];
-
-
-        //getFrom
-//        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Faculty");
-//        db.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if(dataSnapshot.hasChild(mAuth.getCurrentUser().getDisplayName())){
-//                    from[0] = mAuth.getCurrentUser().getDisplayName().toString();
-//                }
-//                else{
-//                    from[0] = "NULL";
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
-
     }
 
     private void send() {
-        Model item = new Model("NULL",this.tag,msg,this.content,Calendar.getInstance().getTime());
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        this.from = user.getDisplayName();
+        Model item = new Model(this.from,this.tag,msg,this.content,Calendar.getInstance().getTime());
         DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Notes");
         db1.child(msg).setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -210,7 +200,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(Forum.this,"Failed ."+e.toString(),Toast.LENGTH_LONG).show();
-                Log.e("EROR",e.toString());
+                Log.e("ERROR",e.toString());
             }
         });
     }
