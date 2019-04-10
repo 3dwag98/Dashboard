@@ -37,7 +37,6 @@ public class NotifyService extends Service {
     public void onCreate() {
         super.onCreate();
       //  Toast.makeText(getApplicationContext(),"inService",Toast.LENGTH_SHORT).show();
-
     }
 
 

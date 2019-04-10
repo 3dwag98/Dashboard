@@ -1,9 +1,14 @@
 package com.example.admin.noticeapp2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,7 +43,7 @@ import java.util.List;
 
 public class Forum extends AppCompatActivity implements Dialog.DialogListener, Dialog.Listener {
     private EditText txtmsg;
-    private ImageView imgAttach,imgSend;
+    private ImageView imgSend;
     private RecyclerView rc;
     ForumAdapter ad;
     List<Model> list,listcopy,listall;
@@ -46,6 +51,8 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
     String content ,tag;
     String msg,from;
     String[] liststr = {"ALL","FY","SY","TY"};
+    private SharedPreferences loginPreferences,memberlogin;
+    private SharedPreferences.Editor memEditor;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,6 +131,10 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
             case R.id.action_logout:
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
+                 memberlogin = getSharedPreferences("memberPref", MODE_PRIVATE);
+                memEditor = memberlogin.edit();
+                memEditor.putBoolean("saveLogin",false);
+                memEditor.commit();
                 finish();
                 startActivity(new Intent(Forum.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
@@ -214,5 +225,24 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
     @Override
     public void onDismiss() {
         send();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Close Application");
+        builder.setMessage("Do you want Exit ? ");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+                finishAffinity();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        builder.show();
     }
 }

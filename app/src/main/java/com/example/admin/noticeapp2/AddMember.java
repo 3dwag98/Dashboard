@@ -1,5 +1,6 @@
 package com.example.admin.noticeapp2;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -105,5 +106,11 @@ public class AddMember extends AppCompatActivity implements RegisterDialog.Dialo
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(AddMember.this,admin_dashboard.class));
     }
 }

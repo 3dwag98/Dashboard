@@ -18,8 +18,15 @@ public class Help_page extends AppCompatActivity {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 startActivity(new Intent(Help_page.this,new_dashboard.class));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(Help_page.this,new_dashboard.class));
     }
 }

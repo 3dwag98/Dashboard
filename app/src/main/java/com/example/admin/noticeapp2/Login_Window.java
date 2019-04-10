@@ -2,12 +2,14 @@ package com.example.admin.noticeapp2;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -46,9 +48,11 @@ public class Login_Window extends AppCompatActivity {
     private CheckBox checkRem;
     Validate v;
     private FirebaseAuth mAuth;
-    private SharedPreferences loginPreferences;
+    private SharedPreferences loginPreferences,memberlogin;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
+    SharedPreferences.Editor memberEditor;
+    boolean ismember;
     ProgressDialog pg;
 
     @Override
@@ -56,10 +60,10 @@ public class Login_Window extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login_window);
 
-        if(isLoggedIn()){
-            startActivity(new Intent(getApplicationContext(),new_dashboard.class));
-        }
-
+//        if(isLoggedIn()){
+//            startActivity(new Intent(getApplicationContext(),new_dashboard.class));
+//        }
+        isLoggedIn();
         final String TAG = "Dashboard";
         txtUname = findViewById(R.id.txtUsername);
         txtPass =  findViewById(R.id.txtPassword);
@@ -78,7 +82,7 @@ public class Login_Window extends AppCompatActivity {
             txtPass.setText(loginPreferences.getString("password", ""));
             checkRem.setChecked(true);
         }
-
+        v = new Validate();
 
         txtUname.addTextChangedListener(new TextWatcher() {
             @Override
@@ -88,7 +92,7 @@ public class Login_Window extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-               // if(v.isValidEmail(txtUname)){}
+                if(v.isValidEmail(txtUname)){}
             }
 
             @Override
@@ -181,9 +185,13 @@ public class Login_Window extends AppCompatActivity {
                             loginPrefsEditor.putString("username", email);
                             loginPrefsEditor.putString("password", pass);
                             loginPrefsEditor.commit();
+                            memberEditor.putBoolean("saveLogin", true);
+                            memberEditor.commit();
                         } else {
                             loginPrefsEditor.clear();
                             loginPrefsEditor.commit();
+                            memberEditor.clear();
+                            memberEditor.commit();
                         }
                         Toast.makeText(Login_Window.this,"WELCOME",Toast.LENGTH_LONG);
                     }
@@ -208,15 +216,24 @@ public class Login_Window extends AppCompatActivity {
                 });
     }
 
-    private boolean isLoggedIn() {
+    private void isLoggedIn() {
         //isLogged code
         mAuth = FirebaseAuth.getInstance();
+        memberlogin = getSharedPreferences("memberPref", MODE_PRIVATE);
+         memberEditor = memberlogin.edit();
+         ismember = memberlogin.getBoolean("saveLogin", false);
 
         if(mAuth.getCurrentUser() != null){
-            finish();
-            return true;
+            if(ismember){
+                finish();
+                startActivity(new Intent(Login_Window.this, Forum.class));
+            }
+            else{
+                finish();
+                startActivity(new Intent(Login_Window.this, new_dashboard.class));
+            }
         }
-        return false;
+
     }
 
     private void CheckLogin(){
@@ -288,7 +305,21 @@ public class Login_Window extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
-        finish();
-        finishAffinity();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Close Application");
+        builder.setMessage("Do you want Exit ? ");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+                finishAffinity();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        builder.show();
+
     }
 }

@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,7 +55,9 @@ public class QueryDialog extends DialogFragment {
                 String  querystr = query.getText().toString();
                 Query query1 =  new Query(to,querystr, Calendar.getInstance().getTime());
                 DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Query");
-                db1.child(to).setValue(query1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String from =user.getDisplayName();
+                db1.child(from).setValue(query1).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(view.getContext(),"Submitted Query..",Toast.LENGTH_LONG).show();

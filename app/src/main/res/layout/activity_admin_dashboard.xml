@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".new_dashboard">
+    tools:context=".admin_dashboard">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        tools:ignore="MissingConstraints"
+        android:id="@+id/toolbar"/>
     <View
         android:id="@+id/view"
         android:layout_width="459dp"
@@ -38,6 +43,18 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgAddMember"
+        android:layout_width="118dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="296dp"
+        android:background="@drawable/notice"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        android:onClick="AddMem"/>
 
     <ImageButton
         android:id="@+id/imgIcon"
