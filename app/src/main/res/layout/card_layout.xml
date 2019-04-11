@@ -8,12 +8,11 @@
 
     android:layout_width="match_parent"
 
-    android:layout_height="130dp"
+    android:layout_height="120dp"
 
     android:id="@+id/card_view"
 
     android:layout_margin="5dp"
-
 
     card_view:cardCornerRadius="12dp"
 
@@ -28,11 +27,11 @@
 
     <RelativeLayout
 
+        android:id="@+id/list_root"
+
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-
-        android:id="@+id/list_root"
         android:padding="16dp">
 
 
@@ -66,6 +65,7 @@
             android:layout_toRightOf="@+id/item_image"
 
             android:text="T.Y.Bsc IT "
+            android:textColor="@color/purple"
 
             android:textSize="30sp"
 
@@ -87,17 +87,29 @@
 
             />
 
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"        >
         <TextView
             android:id="@+id/item_time"
             android:layout_width="82dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+
             android:text="TextView" />
 
 
-    </RelativeLayout>
 
+    </LinearLayout>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

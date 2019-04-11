@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -57,16 +58,16 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
                 Bundle arg =  new Bundle();
                 arg.putString("TO",viewHolder.from.getText().toString());
                 obj.setArguments(arg);
-                FragmentManager fm = ((Forum)context).getSupportFragmentManager();
+                FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
                 obj.show(fm,"Query");
             }
         });
-
         viewHolder.tag.setText(item.getTag());
         final Date time = item.getDate();
         final String time1 = new SimpleDateFormat("dd MMMM").format(time);
         viewHolder.date.setText(time1);
         viewHolder.descp.setText(item.getDescrp());
+        viewHolder.title.setText(item.getMsg());
 
         if(item.getUpload() != null) {
 
@@ -86,7 +87,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
                 viewHolder.img.getLayoutParams().width = (int) (350*scale);
                 viewHolder.img.setScaleType(ImageView.ScaleType.FIT_XY);
                 Glide.with(context)
-                        .load(R.drawable.ic_library_books_black_24dp)
+                        .load(R.drawable.book)
                         .into(viewHolder.img);
             } else {
 
@@ -137,8 +138,9 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView root ;
-        public TextView from,tag,date,descp;
+        public TextView from,tag,date,descp,title;
         public ImageView img;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -148,6 +150,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             img = itemView.findViewById(R.id.img);
             date  = itemView.findViewById(R.id.date);
             descp = itemView.findViewById(R.id.content);
+            title = itemView.findViewById(R.id.Titleforum);
         }
     }
 }

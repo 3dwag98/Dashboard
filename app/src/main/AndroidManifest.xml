@@ -17,6 +17,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".UserForum"
+            android:label="@string/title_activity_user_forum"></activity>
+        <activity
             android:name=".Forum"
             android:exported="true" />
         <activity android:name=".NoticeView" />
@@ -34,7 +37,9 @@
         <activity
             android:name=".account_setup_profile"
             android:exported="true" />
-        <activity android:name=".AddMember" android:exported="true" />
+        <activity
+            android:name=".AddMember"
+            android:exported="true" />
         <activity android:name=".AboutUs" />
         <activity
             android:name=".Splash_Screen"
@@ -61,7 +66,7 @@
             android:name=".adminnotice_addpage"
             android:exported="true" />
         <activity
-            android:name=".CardDemoActivity"
+            android:name=".UserNotice"
             android:exported="true" />
         <activity android:name=".NetworkConnection" />
 

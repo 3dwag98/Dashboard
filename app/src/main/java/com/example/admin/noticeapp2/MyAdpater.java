@@ -166,7 +166,7 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implem
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<Notice> filteredlist = new ArrayList<>();
-            if (charSequence == null || charSequence.length() == 0) {
+            if (charSequence == null || charSequence.length() == 0|| charSequence.equals("")) {
                 filteredlist.addAll(uploadsfull);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();

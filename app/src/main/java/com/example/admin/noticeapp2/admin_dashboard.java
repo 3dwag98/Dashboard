@@ -100,7 +100,6 @@ public class admin_dashboard extends AppCompatActivity {
         });
         builder.show();
     }
-
     public void AddMem(View view) {
         finish();
         startActivity(new Intent(getApplicationContext(),AddMember.class));

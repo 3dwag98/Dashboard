@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -30,13 +31,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class feedbackuser extends AppCompatActivity {
-
    Toolbar toolbar;
    ListView listview;
    List<com.example.admin.noticeapp2.Query> list;
-    private SharedPreferences loginPreferences,memberlogin;
+    private SharedPreferences memberlogin;
     private SharedPreferences.Editor memEditor;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,7 +86,7 @@ public class feedbackuser extends AppCompatActivity {
                 list.clear();
                 for(DataSnapshot child:dataSnapshot.getChildren()){
                     com.example.admin.noticeapp2.Query item = child.getValue(com.example.admin.noticeapp2.Query.class);
-                    if(item.getTo().equals("member2")){
+                    if(item.getTo().equals(name)){
                         list.add(item);
                         Log.e("feedback",list.size()+"Size");
                     }
@@ -110,12 +109,25 @@ public class feedbackuser extends AppCompatActivity {
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            com.example.admin.noticeapp2.Query item = getItem(position);
+            final com.example.admin.noticeapp2.Query item = getItem(position);
             if(convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
             }
             TextView tvName = convertView.findViewById(android.R.id.text1);
-            tvName.setText(item.getQuery());
+            tvName.setText(item.getFrom());
+            tvName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle args = new Bundle();
+                    args.putString("from",item.getFrom());
+                    args.putString("query",item.getQuery());
+
+                    FeedbackDialog object = new FeedbackDialog();
+                    FragmentManager fm = getSupportFragmentManager();
+                    object.setArguments(args);
+                    object.show(fm,"Feedback");
+                }
+            });
             return convertView;
         }
     }

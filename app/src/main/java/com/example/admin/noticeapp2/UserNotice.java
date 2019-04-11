@@ -10,11 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,20 +29,21 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class CardDemoActivity extends AppCompatActivity {
+public class UserNotice extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
     private ProgressDialog progress;
     private DatabaseReference mDatabase;
-    private List<Notice> uploads;
+    private List<Notice> uploads,uploadall;
     private MyAdpater ad;
+    Toolbar toolbar;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.mainmenu,menu);
+        inflater.inflate(R.menu.dashboard_notice_menu,menu);
         MenuItem searchitem = menu.findItem(R.id.action_search);
         SearchView searchView= (SearchView) searchitem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -62,19 +65,51 @@ public class CardDemoActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        searchitem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                uploads.clear();
+                uploads.addAll(uploadall);
+                ad.notifyDataSetChanged();
+                return true;
+            }
+        });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_logout:
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                finish();
+                startActivity(new Intent(UserNotice.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cardview_notices);
+        setContentView(R.layout.activity_user_notices);
         recyclerView = findViewById(R.id.recycler_view);
 
-        linearLayoutManager = new LinearLayoutManager(CardDemoActivity.this);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        linearLayoutManager = new LinearLayoutManager(UserNotice.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         uploads = new ArrayList<>();
+        uploadall = new ArrayList<>();
 
         Query q = FirebaseDatabase.getInstance().getReference("Notices").orderByChild("time/time");
 
@@ -86,6 +121,7 @@ public class CardDemoActivity extends AppCompatActivity {
                     uploads.add(upload);
                 }
                 Collections.reverse(uploads);
+                uploadall.addAll(uploads);
                 ad = new MyAdpater(getApplicationContext(), uploads);
                 recyclerView.setAdapter(ad);
             }
@@ -100,7 +136,7 @@ public class CardDemoActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        startActivity(new Intent(CardDemoActivity.this,new_dashboard.class));
+        startActivity(new Intent(UserNotice.this,new_dashboard.class));
     }
 
 }

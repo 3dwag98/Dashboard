@@ -16,6 +16,4 @@
         android:layout_margin="20dp"
         android:id="@+id/list">
     </ListView>
-
-
 </LinearLayout>

@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="100dp"
+        android:background="@drawable/forumbackoutline"
         android:layout_margin="10dp"
-        android:id="@+id/forum_card">
+        android:id="@+id/forum_card"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="from:"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,47 +36,84 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_weight="1"
-
                 />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+        <ImageView
+            android:id="@+id/img"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:id="@+id/Titleforum"
+                    android:text="# This is Title:"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:autoLink="all"
+                    android:gravity="end"
+                    android:text="#descrp"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:layout_weight="1"
                 android:text="#date"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:id="@+id/tag"
-                android:text="#tag"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textAlignment="viewEnd"
-                android:layout_weight="1"
-                android:gravity="end" />
-        </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:textSize="16sp"
+                tools:layout_editor_absoluteX="334dp"
+                tools:layout_editor_absoluteY="72dp" />
 
             <TextView
+                android:id="@+id/tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:id="@+id/content"
-                android:text="#descrp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textAlignment="center"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:autoLink="all"
-                />
-            </LinearLayout>
+                android:text="#tag"
+                android:textAlignment="viewEnd"
+                android:textSize="16sp"
+                tools:layout_editor_absoluteX="271dp"
+                tools:layout_editor_absoluteY="27dp" />
+        </LinearLayout>
+
+        </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

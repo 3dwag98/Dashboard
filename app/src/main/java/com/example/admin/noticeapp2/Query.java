@@ -3,8 +3,24 @@ package com.example.admin.noticeapp2;
 import java.util.Date;
 
 public class Query {
-    String to,from,query;
+    String to,from,query,feedback;
     Date date;
+
+    public Query(String to, String from, String query, String feedback, Date date) {
+        this.to = to;
+        this.from = from;
+        this.query = query;
+        this.feedback = feedback;
+        this.date = date;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
 
     public Query() {
     }

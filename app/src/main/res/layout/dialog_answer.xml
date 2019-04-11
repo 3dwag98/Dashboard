@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="from:"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:id="@+id/from"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Query:"
+        android:textSize="20sp"
+        android:id="@+id/query"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_margin="20dp"
+        android:text="Feedback:"
+        android:textSize="16sp"
+        android:id="@+id/feedback"/>
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttoncolor"
+        android:text="Delete"
+        android:textColor="@color/white"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+         />
+</LinearLayout>

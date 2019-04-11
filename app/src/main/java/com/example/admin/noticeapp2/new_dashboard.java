@@ -7,20 +7,49 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class new_dashboard extends AppCompatActivity {
     private ImageButton imgIcon,imgNotice,imgAbout,imgHelp,imgForum;
     private FirebaseAuth mAuth;
+    private Toolbar toolbar;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.dashboard_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+            case R.id.action_logout:
+                mAuth = FirebaseAuth.getInstance();
+                mAuth.signOut();
+                startActivity(new Intent(new_dashboard.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                finish();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         imgIcon = findViewById(R.id.imgIcon);
         imgNotice = findViewById(R.id.imgAddNotice);
@@ -32,13 +61,11 @@ public class new_dashboard extends AppCompatActivity {
         imgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Menu module required",Toast.LENGTH_SHORT).show();
-                mAuth = FirebaseAuth.getInstance();
-                mAuth.signOut();
+
+                startActivity(new Intent(new_dashboard.this,account_setup_profile.class));
+
                 stopService(new Intent(getBaseContext(),NotifyService.class));
 
-                finish();
-                startActivity(new Intent(new_dashboard.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 
@@ -47,7 +74,7 @@ public class new_dashboard extends AppCompatActivity {
             public void onClick(View view) {
 
                 Toast.makeText(getApplicationContext(),"View Notice module required",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(new_dashboard.this,CardDemoActivity.class));
+                startActivity(new Intent(new_dashboard.this, UserNotice.class));
             }
         });
 
@@ -55,6 +82,7 @@ public class new_dashboard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Forum module required",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext() ,UserForum.class ));
             }
         });
 

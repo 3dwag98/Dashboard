@@ -22,56 +22,48 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
-public class QueryDialog extends DialogFragment {
+public class FeedbackDialog extends DialogFragment {
 
-    TextView txtTo;
-    EditText query;
+    TextView txtfrom;
+    EditText feedback;
     Button btnSubmit;
-    public interface DialogListener{
-        void onDismiss();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.dialog_query,container,false);
+        View root = inflater.inflate(R.layout.dialog_feedback,container,false);
         return root;
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        txtTo = view.findViewById(R.id.to);
-        query = view.findViewById(R.id.txtQuery);
+        txtfrom = view.findViewById(R.id.from);
+        feedback = view.findViewById(R.id.txtfeedback);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         final Bundle args = getArguments();
-        txtTo.setText("TO: "+args.getString("TO"));
-
+        txtfrom.setText(args.getString("query"));
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-
-                String to = args.getString("TO");
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String from =user.getDisplayName();
-                String  querystr = query.getText().toString();
-                Query query1 =  new Query(to,from,querystr, Calendar.getInstance().getTime());
-                DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Query");
-                db1.child(from).setValue(query1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                Query query1 =  new Query(args.getString("from"),from,args.getString("query"),feedback.getText().toString(), Calendar.getInstance().getTime());
+                DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Feedback");
+                db1.child(args.getString("from")).setValue(query1)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(view.getContext(),"Submitted Query..",Toast.LENGTH_LONG).show();
-                        dismiss();
+                        Toast.makeText(view.getContext(),"Query Resolved",Toast.LENGTH_LONG);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(view.getContext(),"Failed ."+e.toString(),Toast.LENGTH_LONG).show();
-                        Log.e("EROR",e.toString());
-                        dismiss();
+                        Toast.makeText(view.getContext(),"Error "+e.toString(),Toast.LENGTH_LONG);
+                        Log.e("FeedbackError",e.toString());
                     }
                 });
-
+                DatabaseReference db2 = FirebaseDatabase.getInstance().getReference("Query");
+                db2.child(args.getString("from")).removeValue();
+                dismiss();
             }
         });
     }

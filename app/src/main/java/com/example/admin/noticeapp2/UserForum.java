@@ -1,14 +1,10 @@
 package com.example.admin.noticeapp2;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +37,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-public class Forum extends AppCompatActivity implements Dialog.DialogListener, Dialog.Listener {
+public class UserForum extends AppCompatActivity implements Dialog.DialogListener, Dialog.Listener {
     private EditText txtmsg;
     private ImageView imgSend;
     private RecyclerView rc;
@@ -51,15 +47,13 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
     String content ,tag;
     String msg,from;
     String[] liststr = {"ALL","FY","SY","TY"};
-    private SharedPreferences loginPreferences,memberlogin;
-    private SharedPreferences.Editor memEditor;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu,menu);
         MenuItem spinner = menu.findItem(R.id.spinner);
         Spinner sp = (Spinner) spinner.getActionView();
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(Forum.this,
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(UserForum.this,
                 android.R.layout.simple_spinner_item, liststr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(adapter);
@@ -106,7 +100,6 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 return true;
             }
-
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 list.clear();
@@ -123,31 +116,13 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
-            case R.id.action_query:
-                finish();
-                startActivity(new Intent(Forum.this, feedbackuser.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                break;
-            case R.id.action_logout:
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.signOut();
-                 memberlogin = getSharedPreferences("memberPref", MODE_PRIVATE);
-                memEditor = memberlogin.edit();
-                memEditor.putBoolean("saveLogin",false);
-                memEditor.commit();
-                finish();
-                startActivity(new Intent(Forum.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                break;
-        }
-
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forum);
+        setContentView(R.layout.activity_user_forum);
 
         toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -156,7 +131,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
         imgSend = findViewById(R.id.imgsend);
         rc = findViewById(R.id.rcview);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Forum.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UserForum.this);
         rc.setLayoutManager(linearLayoutManager);
         rc.setHasFixedSize(true);
         list = new ArrayList<Model>();
@@ -174,7 +149,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
                 }
                 Collections.reverse(list);
                 listall.addAll(list);
-                ad = new ForumAdapter(getApplicationContext(), list);
+                ad = new ForumAdapter(UserForum.this, list);
                 ad.notifyDataSetChanged();
                 rc.setAdapter(ad);
             }
@@ -189,7 +164,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
     public void Send(View view) {
         this.msg = txtmsg.getText().toString();
         Dialog obj = new Dialog();
-        FragmentManager fm =getSupportFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         Bundle arg = new Bundle();
         arg.putString("child",msg);
         obj.setArguments(arg);
@@ -200,17 +175,17 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         this.from = user.getDisplayName();
-        Model item = new Model(this.from,this.tag,msg,this.content,Calendar.getInstance().getTime());
+        Model item = new Model(this.from,this.tag,msg,this.content, Calendar.getInstance().getTime());
         DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Notes");
         db1.child(msg).setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(Forum.this,"Added..",Toast.LENGTH_LONG).show();
+                Toast.makeText(UserForum.this,"Added..",Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Forum.this,"Failed ."+e.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(UserForum.this,"Failed ."+e.toString(),Toast.LENGTH_LONG).show();
                 Log.e("ERROR",e.toString());
             }
         });
@@ -230,19 +205,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Close Application");
-        builder.setMessage("Do you want Exit ? ");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
-                finishAffinity();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-        builder.show();
+        super.onBackPressed();
     }
+
 }
