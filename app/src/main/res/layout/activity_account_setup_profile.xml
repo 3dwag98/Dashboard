@@ -69,7 +69,7 @@
             android:src="@drawable/profil" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/filename"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="8dp"

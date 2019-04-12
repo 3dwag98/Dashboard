@@ -5,23 +5,40 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.List;
 
 public class account_setup_profile extends AppCompatActivity {
     private static final int IMAGE_REQUEST_CODE = 132;
     private ImageView imgProfilepic;
-    private EditText txtClass;
+    private AppCompatSpinner txtClass;
     private EditText txtRollno;
-
+    private TextView filename;
+    String[] liststr = {"FY-BscIT","SY-BscIT","TY-BscIT"};
     private Uri filePath ;
+    FileOP fileobj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +46,13 @@ public class account_setup_profile extends AppCompatActivity {
         setContentView(R.layout.activity_account_setup_profile);
 
         imgProfilepic = findViewById(R.id.img_profilepic);
-        txtClass = findViewById(R.id.txtClass);
+        txtClass = findViewById(R.id.ClassList);
         txtRollno = findViewById(R.id.txtRollno);
+        filename = findViewById(R.id.filename);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, liststr);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        txtClass.setAdapter(adapter);
 
         imgProfilepic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +64,10 @@ public class account_setup_profile extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(account_setup_profile.this,Registration.class));
+                Intent i = new Intent(getApplicationContext(),Registration.class);
+                i.putExtra("filePath",filePath.toString());
+                i.putExtra("class",txtClass.getSelectedItem().toString());
+                startActivity(i);
             }
         });
 
@@ -53,22 +78,17 @@ public class account_setup_profile extends AppCompatActivity {
 
         if(requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data!=null && data.getData() != null){
             filePath = data.getData();
-            Bitmap btmp = null;
-
-            try {
-                btmp = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                btmp.compress(Bitmap.CompressFormat.JPEG,0,stream);
-//                byte[] byteArray = stream.toByteArray();
-                Bitmap compressedBitmap = Bitmap.createScaledBitmap(btmp,imgProfilepic.getWidth(),imgProfilepic.getHeight(),true);
-                imgProfilepic.setImageBitmap(compressedBitmap);
-
-            } catch (IOException e) {
-                imgProfilepic.setBackgroundColor(Color.YELLOW);
+            if(filePath != null) {
+                fileobj = new FileOP(account_setup_profile.this);
+                Glide.with(this)
+                        .load(filePath)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(imgProfilepic);
+                filename.setText(fileobj.getFileName(filePath).toString());
             }
-
-
-
+            else{
+                Toast.makeText(account_setup_profile.this,"File Load error",Toast.LENGTH_LONG).show();
+            }
         }
     }
 

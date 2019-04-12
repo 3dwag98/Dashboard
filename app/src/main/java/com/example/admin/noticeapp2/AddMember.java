@@ -47,7 +47,7 @@ public class AddMember extends AppCompatActivity implements RegisterDialog.Dialo
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 member.clear();
                 for( DataSnapshot child:dataSnapshot.getChildren()){
-                    member.add((String)child.getKey());
+                    member.add(child.getKey());
                 }
             }
 

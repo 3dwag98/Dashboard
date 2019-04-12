@@ -70,9 +70,9 @@ public class Validate  {
         if(TextUtils.isEmpty(num)){
             phone.requestFocus();
             phone.setError("Field Required");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                phone.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                phone.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+//            }
             return false;
         }
 //        if(TextUtils.isDigitsOnly(num)){
@@ -83,9 +83,9 @@ public class Validate  {
         if( !(num.matches("((\\+*)((0[ -]+)*|(91 )*)(\\d{12}+|\\d{10}+))|\\d{5}([- ]*)\\d{6}"))){
             phone.requestFocus();
             phone.setError("Invalid Phone Number");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                phone.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                phone.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+//            }
             return false;
         }
 

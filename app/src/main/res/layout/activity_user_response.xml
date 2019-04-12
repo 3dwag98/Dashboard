@@ -51,6 +51,7 @@
         android:layout_height="48dp"
         android:id="@+id/toList"
         android:layout_marginTop="28dp"
+        android:outlineAmbientShadowColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/textView15"></android.support.v7.widget.AppCompatSpinner>
 

@@ -34,6 +34,8 @@
         <activity android:name=".feedbackMember" />
         <activity android:name=".UserResponse"
             android:exported="true"/>
+        <activity android:name=".feedbackAdmin"
+            android:exported="true"/>
         <activity android:name=".Login_Window" />
         <activity
             android:name=".account_setup_profile"

@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class QueryDialog extends DialogFragment {
 
@@ -50,6 +51,7 @@ public class QueryDialog extends DialogFragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                String date = String.valueOf((new Date().getTime()));
 
                 String to = args.getString("TO");
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -57,7 +59,7 @@ public class QueryDialog extends DialogFragment {
                 String  querystr = query.getText().toString();
                 Query query1 =  new Query(to,from,querystr, Calendar.getInstance().getTime());
                 DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Query");
-                db1.child(from).setValue(query1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                db1.child(date).setValue(query1).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(view.getContext(),"Submitted Query..",Toast.LENGTH_LONG).show();

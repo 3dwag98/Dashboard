@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class FeedbackDialog extends DialogFragment {
 
@@ -41,6 +42,7 @@ public class FeedbackDialog extends DialogFragment {
         btnSubmit = view.findViewById(R.id.btnSubmit);
         final Bundle args = getArguments();
         txtfrom.setText(args.getString("query"));
+        final String date = String.valueOf((new Date().getTime()));
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -48,7 +50,7 @@ public class FeedbackDialog extends DialogFragment {
                 String from =user.getDisplayName();
                 Query query1 =  new Query(args.getString("from"),from,args.getString("query"),feedback.getText().toString(), Calendar.getInstance().getTime());
                 DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Feedback");
-                db1.child(args.getString("from")).setValue(query1)
+                db1.child(date).setValue(query1)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

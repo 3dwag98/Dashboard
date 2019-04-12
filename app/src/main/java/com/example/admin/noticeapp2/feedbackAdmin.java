@@ -85,7 +85,7 @@ public class feedbackAdmin extends AppCompatActivity {
                 list.clear();
                 for(DataSnapshot child:dataSnapshot.getChildren()){
                     com.example.admin.noticeapp2.Query item = child.getValue(com.example.admin.noticeapp2.Query.class);
-                    if(item.getTo().equals(name)){
+                    if(item.getTo().equals("Admin")){
                         list.add(item);
                         Log.e("feedback",list.size()+"Size");
                     }

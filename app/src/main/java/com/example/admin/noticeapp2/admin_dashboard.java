@@ -2,22 +2,33 @@ package com.example.admin.noticeapp2;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class admin_dashboard extends AppCompatActivity {
 
+    private static final int IMAGE_REQUEST_CODE =12 ;
     private ImageButton imgIcon,imgNotice,imgResponse,imgAddMem;
     private FirebaseAuth mAuth;
 
@@ -54,11 +65,34 @@ public class admin_dashboard extends AppCompatActivity {
         imgNotice = findViewById(R.id.imgAddNotice);
         imgResponse = findViewById(R.id.imgResponse);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        if(user.getPhotoUrl()== null){
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName("Admin")
+                    .setPhotoUri(Uri.parse("https://cdn0.iconfinder.com/data/icons/avatars-3/512/avatar_hoody_guy-512.png"))
+                    .build();
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("Tag", "User profile updated.");
+                                Toast.makeText(admin_dashboard.this,"Uploaded",Toast.LENGTH_LONG);
+                            }
+                        }
+                    });
+        }
+        else{
+            Glide.with(this)
+                    .load(user.getPhotoUrl())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imgIcon);
+        }
         imgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(admin_dashboard.this," Icon Action ",Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -104,4 +138,5 @@ public class admin_dashboard extends AppCompatActivity {
         finish();
         startActivity(new Intent(getApplicationContext(),AddMember.class));
     }
+
 }

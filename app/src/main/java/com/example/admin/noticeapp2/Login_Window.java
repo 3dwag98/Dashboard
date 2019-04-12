@@ -159,8 +159,8 @@ public class Login_Window extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null){
             pg.dismiss();
-            finish();
             startActivity(new Intent(Login_Window.this,Forum.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            finish();
         }
         final String email = txtUname.getText().toString();
         final String pass = txtPass.getText().toString();
@@ -198,8 +198,8 @@ public class Login_Window extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             pg.dismiss();
-                            Toast.makeText(Login_Window.this, "sign-in success..", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(Login_Window.this, Forum.class));
+                            Toast.makeText(Login_Window.this, "sign-in success..", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(Login_Window.this, "sign-in failed..", Toast.LENGTH_SHORT).show();
                         }

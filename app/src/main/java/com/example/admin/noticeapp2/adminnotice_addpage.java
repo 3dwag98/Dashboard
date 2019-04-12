@@ -88,16 +88,12 @@ public class adminnotice_addpage extends AppCompatActivity {
         uploads = new ArrayList<>();
 
 
+        Query q = FirebaseDatabase.getInstance().getReference("Notices").orderByChild("time/time");
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Notices");
-
-        //adding an event listener to fetch values
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        q.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 //dismissing the progress dialog
-
-
                 //iterating through all the values in database
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Notice upload = postSnapshot.getValue(Notice.class);

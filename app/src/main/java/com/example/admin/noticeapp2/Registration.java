@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +34,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
 public class Registration extends AppCompatActivity {
@@ -46,8 +52,10 @@ public class Registration extends AppCompatActivity {
     Validate v = new Validate();
     View vw;
     ProgressDialog pg;
-
+    String Class;
+    Uri filePath;
     private FirebaseAuth mAuth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,11 @@ public class Registration extends AppCompatActivity {
         txtEmail = findViewById(R.id.email);
         txtPass = findViewById(R.id.pass);
         vw = findViewById(R.id.view_reg);
+
+        Intent i = getIntent();
+        Class = i.getStringExtra("class");
+        filePath = Uri.parse(i.getStringExtra("filePath"));
+
 
         txtFname.addTextChangedListener(new TextWatcher() {
             @Override
@@ -190,7 +203,9 @@ public class Registration extends AppCompatActivity {
         email = txtEmail.getText().toString();
         pass = txtPass.getText().toString();
         mobile_no = txtMnum.getText().toString().trim();
-        final Student obj = new Student(fname,lname,uname,email,mobile_no);
+
+
+        final Student obj = new Student(fname,lname,uname,email,Class,null,mobile_no);
 
 
 
@@ -204,7 +219,7 @@ public class Registration extends AppCompatActivity {
                     }
                     else{
                         pg.dismiss();
-                        Toast.makeText(Registration.this,"Enter Valid Email-Id",Toast.LENGTH_LONG).show();
+                        Toast.makeText(Registration.this,"Enter Valid Email-Id,You're Email is not Registered",Toast.LENGTH_LONG).show();
                     }
                 }else{
                     pg.dismiss();
@@ -215,7 +230,6 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(Registration.this,databaseError.toString(),Toast.LENGTH_LONG).show();
-
             }
         });
     }
@@ -238,26 +252,61 @@ public class Registration extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
-                            pg.dismiss();
+
                             Snackbar.make(vw, "   Sign-up success..   ",Snackbar.LENGTH_LONG).show();
                             reset();
-                            FirebaseAuth fAuth = FirebaseAuth.getInstance();
-                            FirebaseUser user = fAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(uname).build();
+                                    .setDisplayName(uname)
+                                    .build();
                             user.updateProfile(profileUpdates);
                             //Toast.makeText(Registration.this, "Sign-up success..", Toast.LENGTH_SHORT).show();
                             DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users");
                             db.child(uname).setValue(obj);
+                            if(filePath!=null){
+                                updateCreds(uname,filePath);
+                            }
+                            pg.dismiss();
                         } else {
                             Toast.makeText(Registration.this, "Sign-up failed..", Toast.LENGTH_SHORT).show();
+                            pg.dismiss();
                         }
                         if(task.getException() instanceof FirebaseAuthUserCollisionException){
                             Toast.makeText(Registration.this,"User Already Exists!!",Toast.LENGTH_SHORT).show();
+                            pg.dismiss();
                         }
 
                     }
                 });
+    }
+
+    private void updateCreds(final String uname, Uri filePath) {
+
+        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+        final StorageReference mfile= mStorageRef.child("UserUploads").child(uname);
+        mfile.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                mfile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        user = mAuth.getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setPhotoUri(uri)
+                                .build();
+                        user.updateProfile(profileUpdates);
+                        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users");
+                        db.child(uname).child("profile_pic").setValue(uri.toString());
+                    }
+                });
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 
 

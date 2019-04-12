@@ -2,20 +2,29 @@ package com.example.admin.noticeapp2;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class new_dashboard extends AppCompatActivity {
     private ImageButton imgIcon,imgNotice,imgAbout,imgHelp,imgForum;
@@ -59,6 +68,15 @@ public class new_dashboard extends AppCompatActivity {
         imgForum = findViewById(R.id.imgResponse);
 
 
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user.getPhotoUrl()!= null) {
+            Glide.with(this)
+                    .load(user.getPhotoUrl())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imgIcon);
+        }
+
         imgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,8 +85,12 @@ public class new_dashboard extends AppCompatActivity {
 
                 DialogProfile obj = new DialogProfile();
                 FragmentManager fm = getSupportFragmentManager();
+                Bundle args = new Bundle();
+                args.putString("file",user.getPhotoUrl().toString());
+                args.putString("name",user.getDisplayName());
+                args.putString("email",user.getEmail());
+                obj.setArguments(args);
                 obj.show(fm,"Profile");
-
                 stopService(new Intent(getBaseContext(),NotifyService.class));
 
             }
@@ -94,7 +116,7 @@ public class new_dashboard extends AppCompatActivity {
         imgAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext() ,AboutUs.class ));
+                startActivity(new Intent(getApplicationContext() ,UserResponse.class ));
             }
         });
 
