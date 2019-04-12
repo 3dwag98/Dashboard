@@ -39,6 +39,12 @@ public class account_setup_profile extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(account_setup_profile.this,Registration.class));
+            }
+        });
 
     }
     @Override
@@ -75,7 +81,6 @@ public class account_setup_profile extends AppCompatActivity {
 
     private void Upload() {
         imgProfilepic.setBackgroundColor(Color.TRANSPARENT);
-
         // imgUpload.setScaleType(ImageView.ScaleType.FIT_XY);
         chooseFile();
     }

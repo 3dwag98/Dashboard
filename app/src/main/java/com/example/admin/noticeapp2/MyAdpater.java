@@ -212,5 +212,4 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implem
 
         }
     }
-
 }

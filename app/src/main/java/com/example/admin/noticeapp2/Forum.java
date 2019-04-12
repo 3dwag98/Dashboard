@@ -126,7 +126,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
         switch (item.getItemId()){
             case R.id.action_query:
                 finish();
-                startActivity(new Intent(Forum.this, feedbackuser.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(Forum.this, feedbackMember.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
             case R.id.action_logout:
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -174,7 +174,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
                 }
                 Collections.reverse(list);
                 listall.addAll(list);
-                ad = new ForumAdapter(getApplicationContext(), list);
+                ad = new ForumAdapter(Forum.this, list);
                 ad.notifyDataSetChanged();
                 rc.setAdapter(ad);
             }

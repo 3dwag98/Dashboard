@@ -249,7 +249,6 @@ public class Registration extends AppCompatActivity {
                             //Toast.makeText(Registration.this, "Sign-up success..", Toast.LENGTH_SHORT).show();
                             DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users");
                             db.child(uname).setValue(obj);
-
                         } else {
                             Toast.makeText(Registration.this, "Sign-up failed..", Toast.LENGTH_SHORT).show();
                         }

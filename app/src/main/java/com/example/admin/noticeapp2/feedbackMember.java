@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class feedbackuser extends AppCompatActivity {
+public class feedbackMember extends AppCompatActivity {
    Toolbar toolbar;
    ListView listview;
    List<com.example.admin.noticeapp2.Query> list;
@@ -48,7 +47,7 @@ public class feedbackuser extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_forum:
                 finish();
-                startActivity(new Intent(feedbackuser.this, Forum.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(feedbackMember.this, Forum.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
             case R.id.action_logout:
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -58,7 +57,7 @@ public class feedbackuser extends AppCompatActivity {
                 memEditor.putBoolean("saveLogin",false);
                 memEditor.commit();
                 finish();
-                startActivity(new Intent(feedbackuser.this, Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(feedbackMember.this, Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -67,7 +66,7 @@ public class feedbackuser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedbackuser);
+        setContentView(R.layout.activity_feedback_member);
 
         toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -135,6 +134,6 @@ public class feedbackuser extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        startActivity(new Intent(feedbackuser.this,Forum.class));
+        startActivity(new Intent(feedbackMember.this,Forum.class));
     }
 }

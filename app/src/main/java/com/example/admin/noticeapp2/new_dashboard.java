@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,7 +63,11 @@ public class new_dashboard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(new_dashboard.this,account_setup_profile.class));
+              //  startActivity(new Intent(new_dashboard.this,account_setup_profile.class));
+
+                DialogProfile obj = new DialogProfile();
+                FragmentManager fm = getSupportFragmentManager();
+                obj.show(fm,"Profile");
 
                 stopService(new Intent(getBaseContext(),NotifyService.class));
 

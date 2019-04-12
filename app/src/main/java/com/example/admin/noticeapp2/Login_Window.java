@@ -44,7 +44,6 @@ public class Login_Window extends AppCompatActivity {
     private Button btnLogin,btnSignup;
     private EditText txtUname , txtPass;
     private Switch switchAdmin;
-    private ImageButton imgBack;
     private CheckBox checkRem;
     Validate v;
     private FirebaseAuth mAuth;
@@ -69,7 +68,6 @@ public class Login_Window extends AppCompatActivity {
         txtPass =  findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnSignup = findViewById(R.id.btnSignup);
-        imgBack = findViewById(R.id.imgBack);
         switchAdmin = findViewById(R.id.switchAdmin);
         checkRem = findViewById(R.id.checkRemeber);
 
@@ -112,18 +110,11 @@ public class Login_Window extends AppCompatActivity {
             }
         });
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onClick(View view) {
-               finishAffinity();
-            }
-        });
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),Registration.class));
+                startActivity(new Intent(getApplicationContext(),account_setup_profile.class));
             }
         });
 

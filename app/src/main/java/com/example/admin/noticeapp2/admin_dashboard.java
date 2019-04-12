@@ -72,7 +72,7 @@ public class admin_dashboard extends AppCompatActivity {
         imgResponse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),responceadmin.class));
+                startActivity(new Intent(getApplicationContext(), feedbackAdmin.class));
             }
         });
 

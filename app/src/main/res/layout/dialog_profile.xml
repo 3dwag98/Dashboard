@@ -5,43 +5,51 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="@drawable/rectangle_outline"
+    android:padding="30dp"
     >
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/profil"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="from:"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:id="@+id/from"
+        android:hint="UserName"
+        android:textSize="25dp"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="#Email_ID"
+        android:textSize="20dp"
+        android:layout_margin="7dp"
+        android:layout_gravity="center"
+
+
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_outline"
-        android:padding="10dp"
-        android:layout_marginLeft="20dp"
-        android:text="Query:"
-        android:textSize="20sp"
-        android:id="@+id/query"
+        android:hint="#Mobile.No"
+        android:textSize="18dp"
+        android:layout_gravity="center"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       android:layout_margin="20dp"
-        android:background="@drawable/rectangle_outline"
-        android:padding="10dp"
-        android:text="Feedback:"
-        android:textSize="16sp"
-        android:id="@+id/feedback"/>
+
+
     <Button
-        android:id="@+id/btnSubmit"
+        android:id="@+id/btnLogout"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/buttoncolor"
-        android:text="Delete"
+        android:text="Logout"
         android:textColor="@color/white"
         android:layout_margin="20dp"
         android:layout_gravity="center"
-         />
+        />
+
 </LinearLayout>

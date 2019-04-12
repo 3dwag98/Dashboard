@@ -71,7 +71,6 @@ public class UserNotice extends AppCompatActivity {
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 return true;
             }
-
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 uploads.clear();
@@ -138,5 +137,4 @@ public class UserNotice extends AppCompatActivity {
         finish();
         startActivity(new Intent(UserNotice.this,new_dashboard.class));
     }
-
 }
