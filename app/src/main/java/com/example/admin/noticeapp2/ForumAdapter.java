@@ -3,11 +3,13 @@ package com.example.admin.noticeapp2;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,12 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +52,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final ForumAdapter.ViewHolder viewHolder, int i) {
-        Model item =  list.get(i);
+        final Model item =  list.get(i);
         viewHolder.from.setText(item.getFrom());
 
         viewHolder.from.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +96,21 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             } else {
 
             }
+           viewHolder.root.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "wallpaper");
 
+                   if (!mediaStorageDir.exists()) {
+                       if (!mediaStorageDir.mkdirs()) {
+                           Log.d("App", "failed to create directory");
+                       }
+                   }
+                   String dir = mediaStorageDir.getAbsolutePath();
+                   new FileOP(context).download(context,item.getMsg(),"",dir,item.getUpload());
+                   Toast.makeText(context,"Downloading....",Toast.LENGTH_LONG).show();
+               }
+           });
         }
     }
 

@@ -60,7 +60,7 @@ public class UserNotice extends AppCompatActivity {
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                ad = new MyAdpater(getApplicationContext(), uploads);
+                ad = new MyAdpater(UserNotice.this, uploads);
                 recyclerView.setAdapter(ad);
                 return false;
             }
@@ -121,7 +121,7 @@ public class UserNotice extends AppCompatActivity {
                 }
                 Collections.reverse(uploads);
                 uploadall.addAll(uploads);
-                ad = new MyAdpater(getApplicationContext(), uploads);
+                ad = new MyAdpater(UserNotice.this, uploads);
                 recyclerView.setAdapter(ad);
             }
             @Override

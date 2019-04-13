@@ -58,10 +58,10 @@
             android:id="@+id/item_noticetitle"
 
             android:layout_width="wrap_content"
-
+            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-
+            android:maxLines="1"
             android:layout_toRightOf="@+id/item_image"
 
             android:text="T.Y.Bsc IT "
@@ -75,14 +75,12 @@
         <TextView
 
             android:id="@+id/item_detail"
-
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
             android:layout_below="@+id/item_noticetitle"
-
+            android:ellipsize="end"
+            android:maxLines="2"
             android:layout_toRightOf="@+id/item_image"
-
             android:text="The Result Will Be Display ON The Notice Board "
 
             />
@@ -100,9 +98,9 @@
         android:layout_alignParentBottom="true"        >
         <TextView
             android:id="@+id/item_time"
-            android:layout_width="82dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
 

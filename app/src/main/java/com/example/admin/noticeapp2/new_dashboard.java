@@ -30,7 +30,6 @@ public class new_dashboard extends AppCompatActivity {
     private ImageButton imgIcon,imgNotice,imgAbout,imgHelp,imgForum;
     private FirebaseAuth mAuth;
     private Toolbar toolbar;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard_menu,menu);
@@ -39,7 +38,6 @@ public class new_dashboard extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch(item.getItemId()){
             case R.id.action_logout:
                 mAuth = FirebaseAuth.getInstance();
@@ -48,7 +46,6 @@ public class new_dashboard extends AppCompatActivity {
                 finish();
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -67,6 +64,7 @@ public class new_dashboard extends AppCompatActivity {
         imgHelp = findViewById(R.id.imgHelp);
         imgForum = findViewById(R.id.imgResponse);
 
+        startService(new Intent(getBaseContext(),NotifyService.class));
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -99,7 +97,6 @@ public class new_dashboard extends AppCompatActivity {
         imgNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Toast.makeText(getApplicationContext(),"View Notice module required",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(new_dashboard.this, UserNotice.class));
             }
@@ -126,7 +123,7 @@ public class new_dashboard extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext() ,Help_page.class ));
             }
         });
-        startService(new Intent(getBaseContext(),NotifyService.class));
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)

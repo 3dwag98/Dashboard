@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -65,7 +66,7 @@ public class admin_dashboard extends AppCompatActivity {
         imgNotice = findViewById(R.id.imgAddNotice);
         imgResponse = findViewById(R.id.imgResponse);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if(user.getPhotoUrl()== null){
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -92,7 +93,14 @@ public class admin_dashboard extends AppCompatActivity {
         imgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                DialogProfile obj = new DialogProfile();
+                FragmentManager fm = getSupportFragmentManager();
+                Bundle args = new Bundle();
+                args.putString("file",user.getPhotoUrl().toString());
+                args.putString("name",user.getDisplayName());
+                args.putString("email",user.getEmail());
+                obj.setArguments(args);
+                obj.show(fm,"Profile");
             }
         });
 

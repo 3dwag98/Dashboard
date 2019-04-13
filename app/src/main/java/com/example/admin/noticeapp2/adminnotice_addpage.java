@@ -35,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class adminnotice_addpage extends AppCompatActivity {
@@ -100,7 +101,8 @@ public class adminnotice_addpage extends AppCompatActivity {
                     uploads.add(upload);
                 }
                 //creating adapter
-                ad = new MyAdpater(getApplicationContext(), uploads);
+                Collections.reverse(uploads);
+                ad = new MyAdpater(adminnotice_addpage.this, uploads);
 
                 //adding adapter to recyclerview
                 recyclerView.setAdapter(ad);

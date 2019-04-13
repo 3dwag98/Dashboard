@@ -20,7 +20,6 @@ public class Splash_Screen extends AppCompatActivity {
                     sleep(2000);
                     ConnectivityManager connec =
                             (ConnectivityManager)getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
-
                     // Check for network connections
                     if(!( connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTED ||
                             connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
