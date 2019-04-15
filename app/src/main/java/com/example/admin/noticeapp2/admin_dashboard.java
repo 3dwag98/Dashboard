@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
@@ -107,7 +106,7 @@ public class admin_dashboard extends AppCompatActivity {
         imgNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),adminnotice_addpage.class));
+                startActivity(new Intent(getApplicationContext(), AdminNotice.class));
             }
         });
 

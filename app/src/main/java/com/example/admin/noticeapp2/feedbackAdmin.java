@@ -38,26 +38,30 @@ public class feedbackAdmin extends AppCompatActivity {
     private SharedPreferences.Editor memEditor;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.feedback_menu,menu);
+        getMenuInflater().inflate(R.menu.admin_dashboard_menu,menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_forum:
+            case R.id.action_notices:
                 finish();
-                startActivity(new Intent(feedbackAdmin.this, Forum.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(feedbackAdmin.this,AdminNotice.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
+
+            case R.id.action_response:
+               break;
+            case R.id.action_member:
+                finish();
+                startActivity(new Intent(feedbackAdmin.this,AddMember.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
             case R.id.action_logout:
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
-                memberlogin = getSharedPreferences("memberPref", MODE_PRIVATE);
-                memEditor = memberlogin.edit();
-                memEditor.putBoolean("saveLogin",false);
-                memEditor.commit();
                 finish();
-                startActivity(new Intent(feedbackAdmin.this, Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(feedbackAdmin.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -70,6 +74,7 @@ public class feedbackAdmin extends AppCompatActivity {
 
         toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Feedback ");
 
         listview = findViewById(R.id.list);
         list = new ArrayList<>();
@@ -120,7 +125,7 @@ public class feedbackAdmin extends AppCompatActivity {
                     Bundle args = new Bundle();
                     args.putString("from",item.getFrom());
                     args.putString("query",item.getQuery());
-
+                    args.putString("time",item.getDate().toString());
                     FeedbackDialog object = new FeedbackDialog();
                     FragmentManager fm = getSupportFragmentManager();
                     object.setArguments(args);
@@ -134,6 +139,6 @@ public class feedbackAdmin extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        startActivity(new Intent(feedbackAdmin.this,Forum.class));
+        startActivity(new Intent(feedbackAdmin.this,admin_dashboard.class));
     }
 }

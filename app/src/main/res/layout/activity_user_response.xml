@@ -4,34 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserResponse">
+    tools:context="com.example.admin.noticeapp2.UserResponse">
 
 
 
 
-    <ImageButton
-        android:id="@+id/imgBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/newback"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
-        android:text="Responce Panel "
-        android:textSize="24dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imgBack"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:id="@+id/toolbar"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btnSubmit"
@@ -47,13 +29,15 @@
         app:layout_constraintTop_toBottomOf="@+id/txtResponse" />
 
     <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/toList"
         android:layout_width="200dp"
         android:layout_height="48dp"
-        android:id="@+id/toList"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="28dp"
         android:outlineAmbientShadowColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/textView15"></android.support.v7.widget.AppCompatSpinner>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"></android.support.v7.widget.AppCompatSpinner>
 
     <TextView
         android:id="@+id/textView17"
@@ -80,13 +64,13 @@
         android:id="@+id/textView14"
         android:layout_width="61dp"
         android:layout_height="47dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="28dp"
         android:text="TO :"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imgBack"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 </android.support.constraint.ConstraintLayout>

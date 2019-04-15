@@ -5,7 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -32,14 +36,56 @@ public class AddMember extends AppCompatActivity implements RegisterDialog.Dialo
     String email,pass,name;
     ListView lv;
     List member;
+    Toolbar toolbar;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.admin_dashboard_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+
+            case R.id.action_notices:
+                finish();
+                startActivity(new Intent(AddMember.this,AdminNotice.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
+            case R.id.action_response:
+                finish();
+                startActivity(new Intent(AddMember.this,feedbackAdmin.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+            case R.id.action_member:
+                break;
+
+            case R.id.action_logout:
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                finish();
+                startActivity(new Intent(AddMember.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_account);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Add Member ");
+
         txtName = findViewById(R.id.name);
         lv = findViewById(R.id.lv);
         member = new ArrayList<String>();
-        ArrayAdapter<String> ad = new ArrayAdapter(AddMember.this,android.R.layout.simple_list_item_1,member);
+        final ArrayAdapter<String> ad = new ArrayAdapter(AddMember.this,android.R.layout.simple_list_item_1,member);
         lv.setAdapter(ad);
         DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Member");
         db1.addValueEventListener(new ValueEventListener() {
@@ -49,6 +95,7 @@ public class AddMember extends AppCompatActivity implements RegisterDialog.Dialo
                 for( DataSnapshot child:dataSnapshot.getChildren()){
                     member.add(child.getKey());
                 }
+                ad.notifyDataSetChanged();
             }
 
             @Override

@@ -70,6 +70,7 @@ public class feedbackMember extends AppCompatActivity {
 
         toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Feedback");
 
         listview = findViewById(R.id.list);
         list = new ArrayList<>();
@@ -120,7 +121,7 @@ public class feedbackMember extends AppCompatActivity {
                     Bundle args = new Bundle();
                     args.putString("from",item.getFrom());
                     args.putString("query",item.getQuery());
-
+                    args.putString("time",item.getDate().toString());
                     FeedbackDialog object = new FeedbackDialog();
                     FragmentManager fm = getSupportFragmentManager();
                     object.setArguments(args);

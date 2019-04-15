@@ -7,12 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,22 +31,55 @@ import java.util.List;
 
 public class Help_page extends AppCompatActivity {
     ListView listview;
-    List<com.example.admin.noticeapp2.Query> list;
-    private ImageButton imgBack;
+    List<Query> list;
+    Toolbar toolbar;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.dashboard_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+
+            case R.id.action_forum:
+                finish();
+                startActivity(new Intent(Help_page.this,UserForum.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
+            case R.id.action_notices:
+                finish();
+                startActivity(new Intent(Help_page.this,UserNotice.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
+            case R.id.action_feedback:
+               break;
+
+            case R.id.action_response:
+                finish();
+                startActivity(new Intent(Help_page.this,UserResponse.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+            case R.id.action_logout:
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                finish();
+                startActivity(new Intent(Help_page.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_help_page);
 
-        imgBack = findViewById(R.id.imgBack);
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent(Help_page.this,new_dashboard.class));
-            }
-        });
-
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Feedback ");
 
         listview = findViewById(R.id.listview);
         list = new ArrayList<>();
@@ -58,7 +94,7 @@ public class Help_page extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
                 for(DataSnapshot child:dataSnapshot.getChildren()){
-                    com.example.admin.noticeapp2.Query item = child.getValue(com.example.admin.noticeapp2.Query.class);
+                    Query item = child.getValue(Query.class);
                     if(item.getTo().equals(name)){
                         list.add(item);
                         Log.e("feedback",list.size()+"Size");
@@ -78,15 +114,15 @@ public class Help_page extends AppCompatActivity {
         startActivity(new Intent(Help_page.this,new_dashboard.class));
     }
 
-    public class QueryAdapter extends ArrayAdapter<com.example.admin.noticeapp2.Query> {
+    public class QueryAdapter extends ArrayAdapter<Query> {
 
-        public QueryAdapter(Context applicationContext, List<com.example.admin.noticeapp2.Query> list) {
+        public QueryAdapter(Context applicationContext, List<Query> list) {
             super(applicationContext,0,list);
         }
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            final com.example.admin.noticeapp2.Query item = getItem(position);
+            final Query item = getItem(position);
             if(convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
             }
@@ -100,6 +136,7 @@ public class Help_page extends AppCompatActivity {
                     args.putString("query",item.getQuery());
                     args.putString("from",item.getFrom());
                     args.putString("to",item.getTo());
+                    args.putString("time",item.getDate().toString());
                     Answer object = new Answer();
                     FragmentManager fm = getSupportFragmentManager();
                     object.setArguments(args);

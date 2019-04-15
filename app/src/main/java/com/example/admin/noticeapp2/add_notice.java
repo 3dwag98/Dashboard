@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +36,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,7 +71,7 @@ public class add_notice extends AppCompatActivity {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),adminnotice_addpage.class));
+                startActivity(new Intent(getApplicationContext(), AdminNotice.class));
             }
         });
 
@@ -98,15 +95,11 @@ public class add_notice extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void Post() {
 
-        String title = txtTitle.getText().toString();
-        String Descrp = txtDescrp.getText().toString();
-        String Upload = "";
-        String type = GetFileExtension(filePath);
-        Date time = Calendar.getInstance().getTime();
-        Notice newNotice = new Notice( title, Descrp,Upload,type,time);
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Notices");
-        db.child(title).setValue(newNotice);
-        Toast.makeText(add_notice.this,"Notice Uploaded",Toast.LENGTH_SHORT).show();
+        final String title = txtTitle.getText().toString();
+        final String Descrp = txtDescrp.getText().toString();
+        final String Upload = "";
+        final String type = GetFileExtension(filePath);
+        final Date time = Calendar.getInstance().getTime();
 
         if(filePath != null) {
             progress = new ProgressDialog(this);
@@ -124,9 +117,10 @@ public class add_notice extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String url = uri.toString();
+                                    Notice newNotice = new Notice( title, Descrp,url,type,time);
                                     DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                                     db.child("Notices").child(txtTitle.getText().toString())
-                                            .child("upload").setValue(url)
+                                            .setValue(newNotice)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -166,6 +160,10 @@ public class add_notice extends AppCompatActivity {
                     });
 
         }else{
+            Notice newNotice = new Notice( title, Descrp,Upload,type,time);
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Notices");
+            db.child(title).setValue(newNotice);
+            Toast.makeText(add_notice.this,"Notice Uploaded",Toast.LENGTH_SHORT).show();
             txtTitle.setText(null);
             txtDescrp.setText(null);
         }
@@ -244,7 +242,7 @@ public class add_notice extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),adminnotice_addpage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        startActivity(new Intent(getApplicationContext(), AdminNotice.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
 }

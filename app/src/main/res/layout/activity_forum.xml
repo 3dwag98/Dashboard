@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Forum">
+    tools:context="com.example.admin.noticeapp2.Forum">
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -41,8 +41,9 @@
                android:layout_width="300dp"
                android:layout_height="match_parent"
                android:layout_marginLeft="15dp"
-               android:hint="Message"
+               android:hint="Enter Title"
                android:textColor="@color/white"
+               android:inputType="textCapWords"
                />
 
 

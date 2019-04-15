@@ -5,7 +5,7 @@
     android:gravity="center_horizontal"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".NoticeView">
+    tools:context="com.example.admin.noticeapp2.NoticeView">
 
     <TextView
         android:id="@+id/tvTitle"

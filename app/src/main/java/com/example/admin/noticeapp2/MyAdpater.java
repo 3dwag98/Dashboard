@@ -1,17 +1,10 @@
 package com.example.admin.noticeapp2;
 
-import android.app.DownloadManager;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,48 +83,14 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implem
                 Bundle arg =  new Bundle();
                 arg.putString("title",title);
                 arg.putString("file",url);
+                arg.putString("type",type);
                 arg.putString("des",descrp);
                 arg.putString("date",time);
                 obj.setArguments(arg);
                 FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
                 obj.show(fm,"NoticeView");
-
-//                if(!url.equals("")) {
-//                    Intent i = new Intent(context.getApplicationContext(),NoticeView.class);
-//                    i.putExtra("title",title);
-//                    i.putExtra("descrp",descrp);
-//                    i.putExtra("time",time);
-//                    i.putExtra("url",url);
-//                    i.putExtra("type",type);
-//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//                    File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "wallpaper");
-//
-//                    if (!mediaStorageDir.exists()) {
-//                        if (!mediaStorageDir.mkdirs()) {
-//                            Log.d("App", "failed to create directory");
-//                        }
-//                    }
-//                    String dir = mediaStorageDir.getAbsolutePath();
-//
-//                    download(context, item.getTitle(), "*", dir, url);
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                        context.startActivity(i);
-//                    }
-//                }
-
             }
-            private void download(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
-                DownloadManager downloadmanager = (DownloadManager) context.
-                        getSystemService(Context.DOWNLOAD_SERVICE);
-                Uri uri = Uri.parse(url);
-                DownloadManager.Request request = new DownloadManager.Request(uri);
 
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalFilesDir(context, destinationDirectory, fileName);
-
-                downloadmanager.enqueue(request);
-            }
         });
     }
 
@@ -146,17 +98,15 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implem
     public int getItemCount() {
         return this.uploads.size();
     }
-
     @Override
     public Filter getFilter() {
         return exampleFilter;
     }
     private Filter exampleFilter = new Filter() {
-
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<Notice> filteredlist = new ArrayList<>();
-            if (charSequence == null || charSequence.length() == 0|| charSequence.equals("")) {
+            if (charSequence.toString().isEmpty() || charSequence == null) {
                 filteredlist.addAll(uploadsfull);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();

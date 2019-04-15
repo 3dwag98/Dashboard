@@ -1,11 +1,5 @@
 package com.example.admin.noticeapp2;
 
-import android.app.Dialog;
-import android.app.DownloadManager;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -20,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.util.Arrays;
@@ -55,7 +48,7 @@ public class DialogViewNotice extends DialogFragment {
         final FileOP f= new FileOP(view.getContext());
         List<String> imageFormat = Arrays.asList(new String[]{"jpg", "JPG", "png", "PNG", "jpeg", "JPEG"});
         if(args.getString("file") != null && !args.getString("file").equals("")){
-            if(imageFormat.contains(f.GetFileExtension(Uri.parse(args.getString("file"))))) {
+            if(imageFormat.contains(args.getString("type"))) {
                 Glide.with(this)
                         .load(args.getString("file"))
                         .into(file);
@@ -72,11 +65,8 @@ public class DialogViewNotice extends DialogFragment {
         view.findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(args.getString("file") != null && !args.getString("file").equals("")) {
-
                     File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "wallpaper");
-
                     if (!mediaStorageDir.exists()) {
                         if (!mediaStorageDir.mkdirs()) {
                             Log.d("App", "failed to create directory");

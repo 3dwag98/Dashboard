@@ -2,30 +2,16 @@ package com.example.admin.noticeapp2;
 
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class NetworkConnection extends AppCompatActivity {
     Button btn;
@@ -39,8 +25,8 @@ public class NetworkConnection extends AppCompatActivity {
                 .apply(RequestOptions.circleCropTransform())
                 .into((ImageView) findViewById(R.id.imageView4));
 
-        final String url = "https://api.dandelion.eu/datatxt/sim/v1";
-        final String token="9b89f0c372c94723895b26ac3652153b";
+//        final String url = "https://api.dandelion.eu/datatxt/sim/v1";
+//        final String token="9b89f0c372c94723895b26ac3652153b";
 
 
 

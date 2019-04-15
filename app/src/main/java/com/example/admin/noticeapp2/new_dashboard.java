@@ -1,17 +1,17 @@
 package com.example.admin.noticeapp2;
 
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,16 +20,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class new_dashboard extends AppCompatActivity {
     private ImageButton imgIcon,imgNotice,imgAbout,imgHelp,imgForum;
     private FirebaseAuth mAuth;
     private Toolbar toolbar;
+    private BroadcastReceiver mNetworkReceiver;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard_menu,menu);
@@ -39,11 +37,30 @@ public class new_dashboard extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.action_logout:
-                mAuth = FirebaseAuth.getInstance();
-                mAuth.signOut();
-                startActivity(new Intent(new_dashboard.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            case R.id.action_forum:
                 finish();
+                startActivity(new Intent(new_dashboard.this,UserForum.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
+            case R.id.action_notices:
+                finish();
+                startActivity(new Intent(new_dashboard.this,UserNotice.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
+            case R.id.action_feedback:
+                finish();
+                startActivity(new Intent(new_dashboard.this,Help_page.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
+            case R.id.action_response:
+                finish();
+                startActivity(new Intent(new_dashboard.this,UserResponse.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+            case R.id.action_logout:
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                finish();
+                startActivity(new Intent(new_dashboard.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -57,15 +74,22 @@ public class new_dashboard extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
         imgIcon = findViewById(R.id.imgIcon);
         imgNotice = findViewById(R.id.imgAddNotice);
         imgAbout = findViewById(R.id.imgAbout);
         imgHelp = findViewById(R.id.imgHelp);
         imgForum = findViewById(R.id.imgResponse);
 
-        startService(new Intent(getBaseContext(),NotifyService.class));
 
+
+
+
+        if(!isServiceRunning(NotifyService.class)) {
+            startService(new Intent(getBaseContext(), NotifyService.class));
+        }
+        else{
+            Toast.makeText(new_dashboard.this,"Service Running",Toast.LENGTH_LONG ).show();
+        }
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if(user.getPhotoUrl()!= null) {
@@ -78,9 +102,7 @@ public class new_dashboard extends AppCompatActivity {
         imgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
               //  startActivity(new Intent(new_dashboard.this,account_setup_profile.class));
-
                 DialogProfile obj = new DialogProfile();
                 FragmentManager fm = getSupportFragmentManager();
                 Bundle args = new Bundle();
@@ -126,6 +148,8 @@ public class new_dashboard extends AppCompatActivity {
 
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
@@ -144,5 +168,13 @@ public class new_dashboard extends AppCompatActivity {
         });
         builder.show();
     }
-
+    private boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

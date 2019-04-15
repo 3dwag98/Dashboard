@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddMember"
+    tools:context="com.example.admin.noticeapp2.AddMember"
     android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        tools:ignore="MissingConstraints"
+        android:id="@+id/toolbar"/>
 
 
 <LinearLayout

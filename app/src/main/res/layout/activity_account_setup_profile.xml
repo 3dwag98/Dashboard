@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/demo_background"
-    tools:context=".account_setup_profile">
+    tools:context="com.example.admin.noticeapp2.account_setup_profile">
 
 
     <ImageButton
@@ -51,14 +51,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="548dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/rectangle_whiteoutline"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/backbtn"
         app:layout_constraintTop_toTopOf="@+id/textView5">
 
         <ImageView

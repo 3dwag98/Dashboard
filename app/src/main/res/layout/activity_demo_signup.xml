@@ -12,7 +12,7 @@
 
     android:background="@drawable/demo_background"
 
-    tools:context="com.example.admin.noticeapp2.demo_mainactivity">
+    tools:context="com.example.admin.noticeapp2.com.example.admin.NoticeApp.demo_mainactivity">
 
 
 

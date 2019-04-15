@@ -1,8 +1,5 @@
 package com.example.admin.noticeapp2;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.os.Build;
 import android.text.TextUtils;
 import android.widget.EditText;
 

@@ -19,9 +19,14 @@
         android:title="Forum"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_feedback"
         android:orderInCategory="100"
         android:title="Feedback"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_response"
+        android:orderInCategory="100"
+        android:title="Response"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_logout"

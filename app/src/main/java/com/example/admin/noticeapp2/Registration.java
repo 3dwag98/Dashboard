@@ -14,10 +14,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;

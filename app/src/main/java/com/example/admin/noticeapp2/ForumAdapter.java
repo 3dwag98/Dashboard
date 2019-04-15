@@ -1,7 +1,6 @@
 package com.example.admin.noticeapp2;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -53,7 +51,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull final ForumAdapter.ViewHolder viewHolder, int i) {
         final Model item =  list.get(i);
-        viewHolder.from.setText(item.getFrom());
+        viewHolder.from.setText(capitalizer(item.getFrom()));
 
         viewHolder.from.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +69,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
         final String time1 = new SimpleDateFormat("dd MMMM").format(time);
         viewHolder.date.setText(time1);
         viewHolder.descp.setText(item.getDescrp());
-        viewHolder.title.setText(item.getMsg());
+        viewHolder.title.setText(capitalizer(item.getMsg()));
 
         if(item.getUpload() != null) {
 
@@ -170,5 +168,19 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolder> 
             descp = itemView.findViewById(R.id.content);
             title = itemView.findViewById(R.id.Titleforum);
         }
+    }
+    private String capitalizer(String word){
+
+        String[] words = word.split(" ");
+        StringBuilder sb = new StringBuilder();
+        if (words[0].length() > 0) {
+            sb.append(Character.toUpperCase(words[0].charAt(0)) + words[0].subSequence(1, words[0].length()).toString().toLowerCase());
+            for (int i = 1; i < words.length; i++) {
+                sb.append(" ");
+                sb.append(Character.toUpperCase(words[i].charAt(0)) + words[i].subSequence(1, words[i].length()).toString().toLowerCase());
+            }
+        }
+        return  sb.toString();
+
     }
 }

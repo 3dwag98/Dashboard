@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".add_notice"
+    tools:context="com.example.admin.noticeapp2.add_notice"
     android:id="@+id/view_upload">
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_marginTop="72dp"
         android:background="@drawable/buttoncolor"
         android:text="Post"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="parent" />
 

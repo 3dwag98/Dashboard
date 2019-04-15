@@ -1,11 +1,13 @@
 package com.example.admin.noticeapp2;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -22,7 +24,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -30,7 +31,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +53,7 @@ public class Login_Window extends AppCompatActivity {
     SharedPreferences.Editor memberEditor;
     boolean ismember;
     ProgressDialog pg;
+    private BroadcastReceiver mNetworkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,8 @@ public class Login_Window extends AppCompatActivity {
         btnSignup = findViewById(R.id.btnSignup);
         switchAdmin = findViewById(R.id.switchAdmin);
         checkRem = findViewById(R.id.checkRemeber);
-
+        mNetworkReceiver = new NetworkChangeReceiver();
+        registerNetworkBroadcastForNougat();
 
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
@@ -220,8 +222,12 @@ public class Login_Window extends AppCompatActivity {
                 startActivity(new Intent(Login_Window.this, Forum.class));
             }
             else{
+
                 finish();
-                startActivity(new Intent(Login_Window.this, new_dashboard.class));
+                if(mAuth.getCurrentUser().getDisplayName().equals("Admin")){
+                    startActivity(new Intent(Login_Window.this,admin_dashboard.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                }
+                else{startActivity(new Intent(Login_Window.this, new_dashboard.class));}
             }
         }
 
@@ -236,15 +242,16 @@ public class Login_Window extends AppCompatActivity {
         if(TextUtils.isEmpty(txtPass.getText())){
             txtPass.setError("Field is required");
         }
-
-
-
         //firebase login check
       //  Toast.makeText(Login_Window.this,"Login triggered",Toast.LENGTH_SHORT).show();
         mAuth = FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser() != null){
             pg.dismiss();
+            if(mAuth.getCurrentUser().getDisplayName().equals("Admin")){
+                finish();
+                startActivity(new Intent(Login_Window.this,admin_dashboard.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
             finish();
             startActivity(new Intent(Login_Window.this,new_dashboard.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
@@ -287,6 +294,7 @@ public class Login_Window extends AppCompatActivity {
                                 Toast.makeText(Login_Window.this, "sign-in success..", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Login_Window.this, new_dashboard.class));
                             } else {
+                                pg.dismiss();
                                 Toast.makeText(Login_Window.this, "sign-in failed..", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -312,5 +320,13 @@ public class Login_Window extends AppCompatActivity {
         });
         builder.show();
 
+    }
+    private void registerNetworkBroadcastForNougat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
     }
 }

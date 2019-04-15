@@ -53,15 +53,22 @@ public class UserNotice extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String s) {
+                if(s.isEmpty()){
+                    uploads.clear();
+                    uploads.addAll(uploadall);
+                    ad.notifyDataSetChanged();
+                }
                 ad.getFilter().filter(s);
                 return false;
             }
+
         });
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                ad = new MyAdpater(UserNotice.this, uploads);
-                recyclerView.setAdapter(ad);
+                uploads.clear();
+                uploads.addAll(uploadall);
+                ad.notifyDataSetChanged();
                 return false;
             }
         });
@@ -85,6 +92,25 @@ public class UserNotice extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+
+            case R.id.action_forum:
+                finish();
+                startActivity(new Intent(UserNotice.this,UserForum.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
+            case R.id.action_notices:
+
+                break;
+
+            case R.id.action_response:
+                finish();
+                startActivity(new Intent(UserNotice.this,UserResponse.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+            case R.id.action_feedback:
+                finish();
+                startActivity(new Intent(UserNotice.this,Help_page.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+
             case R.id.action_logout:
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
@@ -103,6 +129,7 @@ public class UserNotice extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Notices ");
 
         linearLayoutManager = new LinearLayoutManager(UserNotice.this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -129,8 +156,6 @@ public class UserNotice extends AppCompatActivity {
             }
         });
     }
-
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

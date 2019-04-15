@@ -1,17 +1,12 @@
 package com.example.admin.noticeapp2;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -21,14 +16,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.IOException;
-import java.util.List;
 
 public class account_setup_profile extends AppCompatActivity {
     private static final int IMAGE_REQUEST_CODE = 132;

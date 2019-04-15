@@ -1,5 +1,6 @@
 package com.example.admin.noticeapp2;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -50,7 +51,7 @@ public class UserForum extends AppCompatActivity implements Dialog.DialogListene
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu,menu);
+        getMenuInflater().inflate(R.menu.user_search_menu,menu);
         MenuItem spinner = menu.findItem(R.id.spinner);
         Spinner sp = (Spinner) spinner.getActionView();
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(UserForum.this,
@@ -112,10 +113,31 @@ public class UserForum extends AppCompatActivity implements Dialog.DialogListene
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_forum:
+                   break;
+            case R.id.action_notices:
+                finish();
+                startActivity(new Intent(UserForum.this,UserNotice.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
 
+            case R.id.action_feedback:
+                finish();
+                startActivity(new Intent(UserForum.this,Help_page.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+            case R.id.action_response:
+                finish();
+                startActivity(new Intent(UserForum.this,UserResponse.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+            case R.id.action_logout:
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                finish();
+                startActivity(new Intent(UserForum.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -126,6 +148,7 @@ public class UserForum extends AppCompatActivity implements Dialog.DialogListene
 
         toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Forum");
 
         txtmsg  = findViewById(R.id.txtmsg);
         imgSend = findViewById(R.id.imgsend);

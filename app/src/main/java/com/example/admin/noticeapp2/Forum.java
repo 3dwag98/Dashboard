@@ -131,7 +131,7 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
             case R.id.action_logout:
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
-                 memberlogin = getSharedPreferences("memberPref", MODE_PRIVATE);
+                memberlogin = getSharedPreferences("memberPref", MODE_PRIVATE);
                 memEditor = memberlogin.edit();
                 memEditor.putBoolean("saveLogin",false);
                 memEditor.commit();
@@ -151,8 +151,10 @@ public class Forum extends AppCompatActivity implements Dialog.DialogListener, D
 
         toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Forum");
 
         txtmsg  = findViewById(R.id.txtmsg);
+
         imgSend = findViewById(R.id.imgsend);
         rc = findViewById(R.id.rcview);
 
