@@ -14,8 +14,5 @@
         android:right="4dp"
         android:left="4dp"
         android:bottom="5dp"
-
-
-
         ></padding>
 </shape>

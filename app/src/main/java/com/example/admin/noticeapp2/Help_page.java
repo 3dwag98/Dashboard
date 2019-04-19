@@ -31,8 +31,9 @@ import java.util.List;
 
 public class Help_page extends AppCompatActivity {
     ListView listview;
-    List<Query> list;
+    List<com.example.admin.noticeapp2.Query> list;
     Toolbar toolbar;
+    FirebaseAuth firebaseAuth;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,7 +64,6 @@ public class Help_page extends AppCompatActivity {
                 startActivity(new Intent(Help_page.this,UserResponse.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
             case R.id.action_logout:
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
                 finish();
                 startActivity(new Intent(Help_page.this,Login_Window.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -76,7 +76,7 @@ public class Help_page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_help_page);
-
+        firebaseAuth = FirebaseAuth.getInstance();
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Feedback ");
@@ -84,21 +84,23 @@ public class Help_page extends AppCompatActivity {
         listview = findViewById(R.id.listview);
         list = new ArrayList<>();
 
-        final Help_page.QueryAdapter ad =  new Help_page.QueryAdapter(getApplicationContext(),list);
+        final QueryAdapter ad =  new QueryAdapter(getApplicationContext(),list);
         listview.setAdapter(ad);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String name = user.getDisplayName();
         com.google.firebase.database.Query query = FirebaseDatabase.getInstance().getReference("Feedback");
+     try{
         query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
                 list.clear();
-                for(DataSnapshot child:dataSnapshot.getChildren()){
-                    Query item = child.getValue(Query.class);
-                    if(item.getTo().equals(name)){
-                        list.add(item);
-                        Log.e("feedback",list.size()+"Size");
-                    }
+                for(DataSnapshot child:dataSnapshot.getChildren())
+                {
+                    com.example.admin.noticeapp2.Query item = child.getValue(com.example.admin.noticeapp2.Query.class);
+                       if(item.getTo().equals(user.getDisplayName())) {
+                           list.add(item);
+                       }
                 }
                 ad.notifyDataSetChanged();
             }
@@ -106,6 +108,10 @@ public class Help_page extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+     }catch(Exception ex){
+         Log.e("feedback",ex.toString());
+     }
+
     }
 
     @Override
@@ -114,9 +120,9 @@ public class Help_page extends AppCompatActivity {
         startActivity(new Intent(Help_page.this,new_dashboard.class));
     }
 
-    public class QueryAdapter extends ArrayAdapter<Query> {
+    public class QueryAdapter extends ArrayAdapter<com.example.admin.noticeapp2.Query> {
 
-        public QueryAdapter(Context applicationContext, List<Query> list) {
+        public QueryAdapter(Context applicationContext, List<com.example.admin.noticeapp2.Query> list) {
             super(applicationContext,0,list);
         }
         @NonNull

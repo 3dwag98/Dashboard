@@ -6,5 +6,6 @@
     <color name="greycolor">#dedede</color>
     <color name="whitish">#eaeaea</color>
     <color name="white">#FFFFFF</color>
+    <color name="whitelow">#80FFFFFF</color>
     <color name="purple">#1A2C86</color>
 </resources>

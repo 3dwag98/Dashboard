@@ -111,9 +111,9 @@ public class feedbackMember extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             final com.example.admin.noticeapp2.Query item = getItem(position);
             if(convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.listviewxml, parent, false);
             }
-            TextView tvName = convertView.findViewById(android.R.id.text1);
+            TextView tvName = convertView.findViewById(R.id.text);
             tvName.setText(item.getFrom());
             tvName.setOnClickListener(new View.OnClickListener() {
                 @Override

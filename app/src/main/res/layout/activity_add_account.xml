@@ -5,41 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.admin.noticeapp2.AddMember"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/demo_background">
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="75dp"
         tools:ignore="MissingConstraints"
-        android:id="@+id/toolbar"/>
+        android:id="@+id/toolbar"
+        android:theme="@style/toolbarTheme"
+        app:titleTextColor="@color/white"
+        />
 
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginTop="20dp">
-    <EditText
-        android:id="@+id/name"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="200dp"
-        android:layout_margin="20dp"/>
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rectangle_whiteoutline">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Members :"
+            android:drawableLeft="@drawable/adminloinvectors"
+            android:drawablePadding="7dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@drawable/buttoncolor"
-        android:text="ADD"
-        android:textColor="@color/white"
-        android:onClick="Add"/>
-</LinearLayout>
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:minWidth="200dp"
+            android:drawableLeft="@drawable/ic_person_add_black_24dp"
+            android:drawablePadding="10dp"/>
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/buttoncolor"
+            android:onClick="Add"
+            android:text="ADD"
+            android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"></ListView>
+        android:layout_margin="20dp"
+        android:background="@drawable/rectangle_whiteoutline"></ListView>
 
 </LinearLayout>

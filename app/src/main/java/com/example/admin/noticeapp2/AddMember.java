@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -72,7 +73,6 @@ public class AddMember extends AppCompatActivity implements RegisterDialog.Dialo
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,13 +81,12 @@ public class AddMember extends AppCompatActivity implements RegisterDialog.Dialo
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Add Member ");
-
         txtName = findViewById(R.id.name);
         lv = findViewById(R.id.lv);
         member = new ArrayList<String>();
         final ArrayAdapter<String> ad = new ArrayAdapter(AddMember.this,android.R.layout.simple_list_item_1,member);
         lv.setAdapter(ad);
-        DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Member");
+        final DatabaseReference db1 = FirebaseDatabase.getInstance().getReference("Member");
         db1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -102,6 +101,17 @@ public class AddMember extends AppCompatActivity implements RegisterDialog.Dialo
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(AddMember.this,"Failed ."+databaseError.toString(),Toast.LENGTH_LONG).show();
                 Log.e("ERROR",databaseError.toString());
+            }
+        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                db1.child(member.get(i).toString()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(AddMember.this,"Deleted..",Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
@@ -120,6 +130,9 @@ public class AddMember extends AppCompatActivity implements RegisterDialog.Dialo
         this.email= email;
         this.pass = pass;
     }
+
+
+
 
     @Override
     public void Dismiss() {

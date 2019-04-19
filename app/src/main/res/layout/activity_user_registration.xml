@@ -5,25 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.admin.noticeapp2.Registration"
-    android:id="@+id/view_reg">
+    android:id="@+id/view_reg"
+    android:background="@drawable/demo_background">
 
-            <ImageButton
-                android:id="@+id/backbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/newback"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.027"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.015" />
+    <ImageButton
+        android:id="@+id/backbtn"
+        android:layout_width="47dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/demo_button_background"
+        android:src="@drawable/newback"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.027"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.015" />
 
     <TextView
         android:id="@+id/textView5"
@@ -36,126 +38,141 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="Create Account"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="24dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.276"
+        app:layout_constraintHorizontal_bias="0.255"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintVertical_bias="0.004" />
 
-    <EditText
-        android:id="@+id/uname"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="641dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/rectangle_outline"
-        android:ems="10"
-        android:hint="Username"
-        android:inputType="textPersonName"
+        android:background="@drawable/rectangle_whiteoutline"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.439"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-    <EditText
-        android:id="@+id/fname"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/unameInputText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:errorEnabled="true">
 
-        android:background="@drawable/rectangle_outline"
-        android:ems="10"
-        android:hint="First Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/uname"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/uname"
-        app:layout_constraintTop_toBottomOf="@+id/uname" />
+            <EditText
+                android:id="@+id/uname"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="Username"
+                android:inputType="textPersonName" />
+        </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/pass"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/rectangle_outline"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/email"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/email"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/fnameInputText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:errorEnabled="true">
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
-        android:background="@drawable/rectangle_outline"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/edit_text_color"
-        app:layout_constraintEnd_toEndOf="@+id/mobnum"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/mobnum"
-        app:layout_constraintTop_toBottomOf="@+id/mobnum" />
+            <EditText
+                android:id="@+id/fname"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="First Name"
+                android:inputType="textPersonName" />
+        </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/mobnum"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/rectangle_outline"
-        android:ems="10"
-        android:hint="Mob.No"
-        android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="@+id/lname"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/lname"
-        app:layout_constraintTop_toBottomOf="@+id/lname" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/lnameInputText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:errorEnabled="true">
 
-    <Button
-        android:id="@+id/register"
-        android:layout_width="244dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/buttoncolor"
-        android:text="Register"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass" />
+            <EditText
+                android:id="@+id/lname"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="Last Name"
+                android:inputType="textPersonName" />
+        </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/lname"
-        android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/mnumInputText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:errorEnabled="true">
 
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/rectangle_outline"
-        android:ems="10"
-        android:hint="Last Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/fname"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/fname"
-        app:layout_constraintTop_toBottomOf="@+id/fname" />
+            <EditText
+                android:id="@+id/mobnum"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="36dp"
+                android:ems="10"
+                android:hint="Mob.No"
+                android:inputType="phone" />
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/emailInputText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="36dp"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/edit_text_color" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passInputText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/pass"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="244dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/buttoncolor"
+            android:text="Register"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

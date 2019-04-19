@@ -5,24 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.admin.noticeapp2.Splash_Screen"
-    android:background="@drawable/layout_back">
+    >
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="147dp"
-        android:layout_height="197dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        android:layout_width="184dp"
+        android:layout_height="228dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginLeft="112dp"
+        android:layout_marginTop="92dp"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.186"
         app:srcCompat="@drawable/notice" />
 
     s<TextView
@@ -35,6 +29,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+    android:padding="20dp"
         android:textColor="@color/colorPrimaryDark"
         android:text="Online Notice Board"
         android:textSize="25dp"
@@ -45,5 +40,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.704" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="184dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="40dp"
+        android:text="AnyWhere, AnyTime"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 </android.support.constraint.ConstraintLayout>

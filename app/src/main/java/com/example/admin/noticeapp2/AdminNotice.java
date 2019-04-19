@@ -2,9 +2,11 @@
 package com.example.admin.noticeapp2;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -155,8 +158,7 @@ public class AdminNotice extends AppCompatActivity {
         q.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                //dismissing the progress dialog
-                //iterating through all the values in database
+                uploads.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Notice upload = postSnapshot.getValue(Notice.class);
                     uploads.add(upload);
@@ -176,75 +178,72 @@ public class AdminNotice extends AppCompatActivity {
             }
         });
 
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
-                final int pos = viewHolder.getAdapterPosition();
-                try{
-
-                    String url = uploads.get(pos).getUpload();
-                    final String name=uploads.get(pos).getTitle();
-                    int p=0;
-                    for(Notice model : uploads) {
-                        Log.e("DATAL","pos:" + (p++)+",name:"+model.getTitle());
-                    }
-                if(!(url.equals(""))) {
-                    try {
-                        StorageReference mref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
-                        mref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(AdminNotice.this, "Data deleted" , Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.v("dataFail:  ", "" + e);
-                                Toast.makeText(AdminNotice.this, "" + e, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } catch (Exception ex) {
-                        Log.v("dataError:  ", "" + ex);
-                        Toast.makeText(AdminNotice.this, "" + ex, Toast.LENGTH_SHORT).show();
-                    }
-                }
-                    DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Notices").child(name);
-
-                    rRef.getRef().removeValue(new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete( DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                            Toast.makeText(AdminNotice.this, "Notice deleted" , Toast.LENGTH_SHORT).show();
-                            Log.e("DATAL","pos:" + pos+",name:"+name+"data:");
-
-                        }
-                    });
-
-                    p=0;
-                    for(Notice model : uploads) {
-                        Log.e("DATAL","afterpos:" + (p++)+",name:"+model.getTitle());
-                    }
-////                    uploads.remove(viewHolder.getAdapterPosition());
-////                    ad.notifyItemRemoved(viewHolder.getAdapterPosition());
-                }catch (Exception e){
-                    Toast.makeText(AdminNotice.this,e+"",Toast.LENGTH_LONG);
-                }
-                uploads.remove(pos);
-//                uploads.clear();
-//                uploaddummy.remove(pos);
-//                uploads.addAll(uploaddummy);
-               ad.notifyItemRemoved(pos);
-               ad.notifyItemRangeChanged(0,uploads.size());
-               // ad.notifyDataSetChanged();
-            }
-
-        }).attachToRecyclerView(recyclerView);
+//
+//        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+//                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
+//                final int pos = viewHolder.getAdapterPosition();
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(AdminNotice.this,R.style.MyDialogTheme);
+//                builder.setTitle("Delete Notice");
+//                builder.setMessage("Do you want to Delete Notices");
+//                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        removeItem(pos);
+//                        Toast.makeText(AdminNotice.this,"Deleted Notice",Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                    }
+//                });
+//                builder.show();
+////                try{
+////                    String url = uploads.get(pos).getUpload();
+////                    final String name=uploads.get(pos).getTitle();
+////                if(!(url.equals(""))) {
+////                    try {
+////                        StorageReference mref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+////                        mref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+////                            @Override
+////                            public void onSuccess(Void aVoid) {
+////                                Toast.makeText(AdminNotice.this, "Data deleted" , Toast.LENGTH_SHORT).show();
+////                            }
+////                        }).addOnFailureListener(new OnFailureListener() {
+////                            @Override
+////                            public void onFailure(@NonNull Exception e) {
+////                                Log.v("dataFail:  ", "" + e);
+////                                Toast.makeText(AdminNotice.this, "" + e, Toast.LENGTH_SHORT).show();
+////                            }
+////                        });
+////                    } catch (Exception ex) {
+////                        Log.v("dataError:  ", "" + ex);
+////                        Toast.makeText(AdminNotice.this, "" + ex, Toast.LENGTH_SHORT).show();
+////                    }
+////                }
+////                    DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Notices").child(name);
+////                    rRef.getRef().removeValue(new DatabaseReference.CompletionListener() {
+////                        @Override
+////                        public void onComplete( DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+////                            Toast.makeText(AdminNotice.this, "Notice deleted" , Toast.LENGTH_SHORT).show();
+////                        }
+////                    });
+////                }catch (Exception e){
+////                    Toast.makeText(AdminNotice.this,e+"",Toast.LENGTH_LONG);
+////                }
+////                uploads.remove(pos);
+////                ad.notifyItemRemoved(pos);
+////                ad.notifyItemRangeChanged(pos,uploads.size());
+////                ad.notifyDataSetChanged();
+//            }
+//
+//        }).attachToRecyclerView(recyclerView);
 
 //        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
 //                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -301,17 +300,47 @@ public class AdminNotice extends AppCompatActivity {
 
     }
 
+    public void removeItem(final int pos){
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        String url = uploads.get(pos).getUpload();
+        final String name=uploads.get(pos).getTitle();
+        if(!(url.equals(""))) {
+            try {
+                StorageReference mref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+                mref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(AdminNotice.this, "Data deleted" , Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v("dataFail:  ", "" + e);
+                        Toast.makeText(AdminNotice.this, "" + e, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception ex) {
+                Log.v("dataError:  ", "" + ex);
+                Toast.makeText(AdminNotice.this, "" + ex, Toast.LENGTH_SHORT).show();
+            }
+        }
+        DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Notices").child(name);
+        rRef.getRef().removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                Toast.makeText(AdminNotice.this, "Notice deleted" , Toast.LENGTH_SHORT).show();
+                if(pos==0){
+                    uploads.clear();
+                }else {
+                    uploads.remove(pos);
+                }
+                ad.notifyItemRemoved(pos);
+                ad.notifyItemRangeChanged(pos, uploads.size());
+                ad.notifyDataSetChanged();
+            }
+        });
 
 
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     @Override

@@ -23,7 +23,6 @@
         <activity
             android:name=".Forum"
             android:exported="true" />
-        <activity android:name=".NoticeView" />
         <activity android:name=".demo_mainactivity" />
         <activity
             android:name=".user_dashboardfinal"
@@ -53,7 +52,6 @@
             android:icon="@drawable/notice">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

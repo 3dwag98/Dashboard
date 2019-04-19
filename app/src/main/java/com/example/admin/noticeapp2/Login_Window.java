@@ -59,10 +59,6 @@ public class Login_Window extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login_window);
-
-//        if(isLoggedIn()){
-//            startActivity(new Intent(getApplicationContext(),new_dashboard.class));
-//        }
         isLoggedIn();
         final String TAG = "Dashboard";
         txtUname = findViewById(R.id.txtUsername);
@@ -242,8 +238,6 @@ public class Login_Window extends AppCompatActivity {
         if(TextUtils.isEmpty(txtPass.getText())){
             txtPass.setError("Field is required");
         }
-        //firebase login check
-      //  Toast.makeText(Login_Window.this,"Login triggered",Toast.LENGTH_SHORT).show();
         mAuth = FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser() != null){
@@ -257,8 +251,6 @@ public class Login_Window extends AppCompatActivity {
         }
 
 
-        //checkRem.setText(email[0]);
-        //txtUname.setText();
         final String email = txtUname.getText().toString();
         final String pass = txtPass.getText().toString();
             mAuth.signInWithEmailAndPassword(email, pass)
@@ -305,7 +297,7 @@ public class Login_Window extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle("Close Application");
         builder.setMessage("Do you want Exit ? ");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

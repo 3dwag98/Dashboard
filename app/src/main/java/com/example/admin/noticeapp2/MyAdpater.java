@@ -1,10 +1,14 @@
 package com.example.admin.noticeapp2;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +21,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +37,7 @@ import java.util.List;
 
 public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implements Filterable {
     private Context context;
-    private List uploads;
+    private List<Notice> uploads;
     private List<Notice> uploadsfull;
 
 
@@ -41,6 +52,7 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implem
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
+
         return viewHolder;
     }
 
@@ -67,6 +79,27 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implem
                     .into(holder.imgPreview);;
         }
 
+        holder.root.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
+                builder.setTitle("Delete Notice");
+                builder.setMessage("Do you want to Delete Notices");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        removeItem(position);
+                        Toast.makeText(context,"Deleted Notice",Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                builder.show();
+                return false;
+            }
+        });
 
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +163,44 @@ public class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> implem
         }
     };
 
+    public void removeItem(final int pos){
 
+        String url = uploads.get(pos).getUpload();
+        final String name=uploads.get(pos).getTitle();
+        if(!(url.equals(""))) {
+            try {
+                StorageReference mref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+                mref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(context, "Data deleted" , Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v("dataFail:  ", "" + e);
+                        Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception ex) {
+                Log.v("dataError:  ", "" + ex);
+                Toast.makeText(context, "" + ex, Toast.LENGTH_SHORT).show();
+            }
+        }
+        DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Notices").child(name);
+        rRef.getRef().removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                Toast.makeText(context, "Notice deleted" , Toast.LENGTH_SHORT).show();
+                uploads.remove(pos);
+                notifyItemRemoved(pos);
+                notifyItemRangeChanged(pos, uploads.size());
+                notifyDataSetChanged();
+            }
+        });
+
+
+    }
 
 
     class ViewHolder extends RecyclerView.ViewHolder {

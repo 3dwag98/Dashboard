@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -47,6 +48,7 @@ public class Registration extends AppCompatActivity {
     private EditText txtPass;
     private Button btnRegister;
     private ImageButton btnBack;
+    private TextInputLayout errUname,errFname,errLname,errMnum,errEmail,errPass;
     Validate v = new Validate();
     View vw;
     ProgressDialog pg;
@@ -67,10 +69,20 @@ public class Registration extends AppCompatActivity {
         txtPass = findViewById(R.id.pass);
         vw = findViewById(R.id.view_reg);
 
+        errUname= findViewById(R.id.unameInputText);
+        errFname= findViewById(R.id.fnameInputText);
+        errLname= findViewById(R.id.lnameInputText);
+        errMnum= findViewById(R.id.mnumInputText);
+        errEmail= findViewById(R.id.emailInputText);
+        errPass= findViewById(R.id.passInputText);
+
         Intent i = getIntent();
         Class = i.getStringExtra("class");
-        filePath = Uri.parse(i.getStringExtra("filePath"));
-
+        if(i.getStringExtra("filePath")!= null) {
+            filePath = Uri.parse(i.getStringExtra("filePath"));
+        }else{
+            filePath = null;
+        }
 
         txtFname.addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,7 +92,9 @@ public class Registration extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(v.isValidString(txtFname)){}
+                if(v.isValidString(txtFname,errFname)){
+                    errFname.setError(null);
+                }
             }
 
             @Override
@@ -97,7 +111,9 @@ public class Registration extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(v.isValidString(txtLname)){}
+                if(v.isValidString(txtLname,errLname)){
+                    errLname.setError(null);
+                }
             }
 
             @Override
@@ -116,7 +132,9 @@ public class Registration extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-               if(v.isValidEmail(txtEmail)){}
+               if(v.isValidEmail(txtEmail,errEmail)){
+                   errEmail.setError(null);
+               }
             }
 
             @Override
@@ -133,7 +151,9 @@ public class Registration extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(v.isValidPassword(txtPass)){}
+                if(v.isValidPassword(txtPass,errPass)){
+                    errPass.setError(null);
+                }
             }
 
             @Override
@@ -152,10 +172,9 @@ public class Registration extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    txtMnum.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+                if(v.isValidNumber(txtMnum,errMnum)){
+                    errMnum.setError(null);
                 }
-                if(v.isValidNumber(txtMnum)){}
             }
 
             @Override
@@ -187,7 +206,7 @@ public class Registration extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),Login_Window.class));
+                startActivity(new Intent(getApplicationContext(),account_setup_profile.class));
             }
         });
     }
@@ -250,15 +269,13 @@ public class Registration extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
-
                             Snackbar.make(vw, "   Sign-up success..   ",Snackbar.LENGTH_LONG).show();
-                            reset();
+                            //reset();
                             user = mAuth.getCurrentUser();
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(uname)
                                     .build();
                             user.updateProfile(profileUpdates);
-                            //Toast.makeText(Registration.this, "Sign-up success..", Toast.LENGTH_SHORT).show();
                             DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users");
                             db.child(uname).setValue(obj);
                             if(filePath!=null){
@@ -306,7 +323,6 @@ public class Registration extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public void onBackPressed() {

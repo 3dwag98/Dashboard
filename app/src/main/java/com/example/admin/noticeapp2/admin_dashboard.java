@@ -122,7 +122,7 @@ public class admin_dashboard extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle("Close Application");
         builder.setMessage("Do you want Exit ? ");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
